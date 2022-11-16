@@ -1,0 +1,347 @@
+Option Explicit
+
+'###############################################################################
+'# RhinoScript
+'# Copyright 		© Kai Strehlke - Herzog & de Meuron
+'# Date: 				30.10.2008
+'# Project:			932 Zuend Laser Exporter
+'###############################################################################
+
+'###############################################################################
+'# Export File Data to a PLT File for the Zuend Cutter
+'###############################################################################
+
+Sub GenerateZuendFile
+
+'###############################################################################
+'# define the global variables
+'###############################################################################
+
+	Dim strFileName, objFSO, objStream
+	Dim i, ii, intSheet, arrObjects
+	Dim arrFra, arrEng, arrCut, strOutput, arrBoundingBox, intProj
+	Dim intMaxX, intMaxY, flagFrameCheck, dblFrameX, dblFrameY, arrStart(1)
+	Dim intEngVS, strEngVS, strEngLL, strEngML
+	Dim intCutVS, strCutVS, strCutLL, strCutML
+
+'###############################################################################
+'# main input variables
+'###############################################################################
+
+	intMaxX			= 801
+	intMaxY			= 801
+	intProj			= Rhino.GetInteger("enter hdm project number", 999, 1, 1000)
+	intSheet		= Rhino.GetInteger("enter index of file", 1, 1, 1000)
+	intEngVS		= Rhino.GetInteger("enter speed for engraving (mm/s)", 150, 10, 1000)
+	intCutVS		= Rhino.GetInteger("enter speed for cutting (mm/s)", 10, 10, 1000)
+	intEngVS		= intEngVS / 10
+	intCutVS		= intCutVS / 10
+	strEngVS		= "VS " & intEngVS & ";"
+	strCutVS		= "VS " & intCutVS & ";"
+	strEngLL		= "LL " &  Rhino.GetInteger("enter the laser power for engraving (1-80%)", 1, 1, 100) & ";"
+	strCutLL		= "LL " &  Rhino.GetInteger("enter the laser power for cutting (1-80%)", 1, 1, 100) & ";"
+	strEngML		= "ML 4;"
+	strCutML		= "ML 5;"
+	strOutput		= ""
+
+'###############################################################################
+'# open the output file
+'###############################################################################
+
+	For i = 0 To 0
+
+		arrObjects	= Rhino.GetObjects("pick all the curves of one sheet or type enter to exit", 4)
+
+  	ReDim arrFra(-1)
+  	ReDim arrEng(-1)
+  	ReDim arrCut(-1)
+
+  	flagFrameCheck = 0
+
+		If IsArray(arrObjects) Then
+			i = i - 1
+
+			' generate the different arrays holding all the objects
+			For ii = 0 To UBound(arrObjects)
+
+				If  Rhino.ObjectLayer(arrObjects(ii)) = "932_Frame" Then
+					ReDim Preserve arrFra(UBound(arrFra) + 1)
+					arrFra(UBound(arrFra)) = arrObjects(ii)
+				End If
+
+				If  Rhino.ObjectLayer(arrObjects(ii)) = "932_Engrave" Then
+					ReDim Preserve arrEng(UBound(arrEng) + 1)
+					arrEng(UBound(arrEng)) = arrObjects(ii)
+				End If
+
+				If  Rhino.ObjectLayer(arrObjects(ii)) = "932_Cut" Then
+					ReDim Preserve arrCut(UBound(arrCut) + 1)
+					arrCut(UBound(arrCut)) = arrObjects(ii)
+				End If
+
+			Next
+
+			' sort objects to increase cutting time
+			SortObjects arrEng
+			SortObjects arrCut
+
+			' calculate bounding box of frame get x0 and y0
+			If UBound(arrFra) <> 0 Then
+				Rhino.MessageBox "The frame has not been defined by only one element"
+			Else
+				arrBoundingBox = Rhino.BoundingBox(arrFra(0))
+				dblFrameX = arrBoundingBox(6)(0) - arrBoundingBox(0)(0)
+				dblFrameY = arrBoundingBox(6)(1) - arrBoundingBox(0)(1)
+				If dblFrameX > intMaxX Or dblFrameY > intMaxY Then
+					Rhino.MessageBox "The frame is too big it can only be 800 x 800 mm"
+				Else
+					arrStart(0) = arrBoundingBox(0)(0)
+					arrStart(1) = arrBoundingBox(0)(1)
+					flagFrameCheck = 1
+				End If
+			End If
+
+
+			If flagFrameCheck = 1 Then
+
+				' generate the file handle for the output
+				strFileName		= FormatOutputString(intProj, intSheet)
+				Set objFSO		= CreateObject("Scripting.FileSystemObject")
+				On Error Resume Next
+				Set objStream	= objFSO.CreateTextFile(strFileName, True)
+				If Err Then
+					MsgBox Err.Description
+					Exit Sub
+				End If
+
+				' initialize job
+				objStream.WriteLine("XX 13,12,0;")
+				objStream.WriteLine("PU 0,0;")
+				objStream.WriteLine("PA 0,0;")
+				objStream.WriteLine("QU 2;")
+				objStream.WriteLine("LF 10000;")
+				objStream.WriteLine("AS 3;")
+				objStream.WriteLine("PW 0,0,0,0;")
+				objStream.WriteLine("EG 1;")
+				objStream.WriteLine("PB 2,1;")
+				objStream.WriteLine("PB 4,1;")
+				objStream.WriteLine("SD 200;")
+				objStream.WriteLine("MS ENTER TO START;")
+
+				WriteArrayToFile objStream, arrStart, arrEng, strEngVS, strEngLL, strEngML
+				WriteArrayToFile objStream, arrStart, arrCut, strCutVS, strCutLL, strCutML
+
+				' exit job
+				objStream.WriteLine("PU 20000,20000;")
+				objStream.WriteLine("EG 0;")
+				objStream.WriteLine("SD 300;")
+				objStream.WriteLine("PU 20000,0;")
+				objStream.WriteLine("PB 2,0;")
+				objStream.WriteLine("PB 4,0;")
+				objStream.WriteLine("XX 13,12,1;")
+				objStream.WriteLine("NR;")
+
+				' close file handle
+				objStream.Close
+
+				' increment sheet number
+				intSheet = intSheet + 1
+
+			End If
+
+		End If
+
+	Next
+
+'###############################################################################
+'# end of the main function
+'###############################################################################
+
+End Sub
+
+'###############################################################################
+'# function is formatting the output string
+'###############################################################################
+
+Function WriteArrayToFile(objStream, arrStart, arrElements, strVS, strLL, strML)
+
+	Dim j, k, arrPoints, strOutput, arrCenter, dblRadius, dblLength
+
+	If UBound(arrElements) >= 0 Then
+
+		' change tool and set Z positions and speed
+		objStream.WriteLine(strVS)
+		objStream.WriteLine(strLL)
+		objStream.WriteLine(strML)
+		objStream.WriteLine("EL 0;")
+
+		' for every element do
+		For j = 0 To UBound(arrElements)
+
+			' Circle
+			If Rhino.IsCircle(arrElements(j)) Then
+				'Rhino.Print "found a circle"
+				arrCenter			= Rhino.CircleCenterPoint(arrElements(j))
+				dblRadius			= Round((Rhino.CircleRadius(arrElements(j))*100), 0)
+				arrCenter(0)	= Round(((arrCenter(0)-arrStart(0))*100), 0)
+				arrCenter(1)	= Round(((arrCenter(1)-arrStart(1))*100), 0)
+				strOutput = "PA " & arrCenter(0) & "," & arrCenter(1) & ";"
+				objStream.WriteLine(strOutput)
+				strOutput = "CI " & dblRadius & ";"
+				objStream.WriteLine(strOutput)
+				objStream.WriteLine("PU;")
+
+			' Polyline
+			ElseIf Rhino.IsPolyline(arrElements(j)) Then
+				'Rhino.Print "found a polyline"
+				arrPoints = CalculatePoints(Rhino.CurvePoints(arrElements(j)), arrStart)
+				strOutput = "PA " & arrPoints(0)(0) & "," & arrPoints(0)(1) & ";"
+				objStream.WriteLine(strOutput)
+				For k = 0 To UBound(arrPoints)
+					strOutput = "PD " & arrPoints(k)(0) & "," & arrPoints(k)(1) & ";"
+					objStream.WriteLine(strOutput)
+				Next
+				objStream.WriteLine("PU;")
+
+			' Curve
+			ElseIf Rhino.IsCurve(arrElements(j)) Then
+				'Rhino.Print "found a curve"
+				dblLength			= Abs((Rhino.CurveLength(arrElements(j))+10)/0.5)
+				arrPoints			= Rhino.DivideCurve(arrElements(j), dblLength)
+				For k = 0 To UBound(arrPoints)
+					arrPoints(k)(0) = Round(((arrPoints(k)(0)-arrStart(0))*100), 0)
+					arrPoints(k)(1) = Round(((arrPoints(k)(1)-arrStart(1))*100), 0)
+				Next
+				strOutput = "PA " & arrPoints(0)(0) & "," & arrPoints(0)(1) & ";"
+				objStream.WriteLine(strOutput)
+				For k = 0 To UBound(arrPoints)
+					strOutput = "PD " & arrPoints(k)(0) & "," & arrPoints(k)(1) & ";"
+					objStream.WriteLine(strOutput)
+				Next
+				objStream.WriteLine("PU;")
+
+			' Other Element
+			Else
+				Rhino.Print "found object which can not be plotted"
+				'Rhino.MessageBox "Object was ignored because it was neither a circle nor a polyline"
+			End If
+		Next
+
+	End If
+
+End Function
+
+'###############################################################################
+'# function is formatting the output string
+'###############################################################################
+
+Function FormatOutputString(intProj, intNumber)
+
+	Dim strReturn, strFiller, strDate
+
+	If intNumber < 10 Then
+		strFiller = "00"
+	ElseIf intNumber < 100 Then
+		strFiller = "0"
+	Else
+		strFiller = ""
+	End If
+
+	strReturn = Rhino.DocumentPath & intProj & "_LaserFile_" & strFiller & intNumber & ".plt"
+
+	FormatOutputString = strReturn
+
+End Function
+
+'###############################################################################
+'# function is generating an array with the location of all the particular windows
+'###############################################################################
+
+Function CalculatePoints(arrPts, arrStart)
+
+	Dim j, arrResult, intX, intY
+
+	ReDim arrResult(-1)
+
+	For j = 0 To UBound(arrPts)
+		intX = Round(((arrPts(j)(0)-arrStart(0))*100), 0)
+		intY = Round(((arrPts(j)(1)-arrStart(1))*100), 0)
+		ReDim Preserve arrResult(UBound(arrResult)+1)
+		arrResult(UBound(arrResult)) = Array(intX, intY)
+	Next
+
+	CalculatePoints = arrResult
+
+End Function
+
+'###############################################################################
+'# function sorting the output script
+'###############################################################################
+
+Function SortObjects(ByRef arrObjects)
+
+	Dim i, arrCoordinates, intStart, intStop
+	
+	ReDim arrCoordinates(UBound(arrObjects))
+	
+	For i = 0 To Ubound(arrObjects)
+		If Rhino.IsPoint(arrObjects(i)) Then
+			arrCoordinates(i) = Rhino.PointCoordinates(arrObjects(i))
+		Else
+			arrCoordinates(i) = Rhino.CurveStartPoint(arrObjects(i))
+		End If 
+	Next
+	
+	' sort in x direction
+	BubbleSort arrObjects, arrCoordinates, 0, 0, UBound(arrObjects), 0
+
+	' sort in y direction
+	For i = 0 To 9
+		intStart	= Int(UBound(arrObjects)/10*i)
+		intStop		= Int(UBound(arrObjects)/10*(i+1))
+		BubbleSort arrObjects, arrCoordinates, 1, intStart, intStop, (i Mod 2)
+	Next
+
+End Function
+
+'###############################################################################
+'# function is doing a bubble sort
+'###############################################################################
+
+Function BubbleSort(ByRef arrObjects, ByRef arrCoordinates, intIndex, intStart, intStop, intFlag)
+ 
+	Dim i, j, arrTemp0, arrTemp1
+ 
+	For i = intStart To intStop-1
+		For j = i + 1 To intStop
+			If intFlag = 0 Then
+				If arrCoordinates(i)(intIndex) > arrCoordinates(j)(intIndex) Then
+					arrTemp0					= arrCoordinates(i)
+					arrTemp1					= arrObjects(i)
+					arrCoordinates(i) = arrCoordinates(j)
+					arrObjects(i)			= arrObjects(j)
+					arrCoordinates(j) = arrTemp0
+					arrObjects(j)			= arrTemp1
+				End If
+			Else 
+				If arrCoordinates(i)(intIndex) < arrCoordinates(j)(intIndex) Then
+					arrTemp0					= arrCoordinates(i)
+					arrTemp1					= arrObjects(i)
+					arrCoordinates(i) = arrCoordinates(j)
+					arrObjects(i)			= arrObjects(j)
+					arrCoordinates(j) = arrTemp0
+					arrObjects(j)			= arrTemp1
+				End If
+			End If
+		Next
+	Next
+
+End Function
+
+'###############################################################################
+'# call the main subroutine to start the function
+'###############################################################################
+
+GenerateZuendFile
+
+'############################################################################end

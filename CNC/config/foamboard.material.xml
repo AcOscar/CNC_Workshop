@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<materials>
+
+  <material id="foamboard_3mm" display="Foamboard 3 mm" BoundBoxTool="SP2">
+    <toolsettings id="SP1CUT" speeddown="100" zposup="600" zposdown="100"/>
+    <toolsettings id="SP1ENG" speeddown="100" zposup="600" zposdown="-280"/>
+    <toolsettings id="SP1" speeddown="100" zposup="600"/>
+    <toolsettings id="SP2" speeddown="4"  zposup="600"/>
+  </material>
+
+  <material id="foamboard_5mm" display="Foamboard 5 mm" BoundBoxTool="SP2">
+    <toolsettings id="SP1CUT" speeddown="30" zposup="800" zposdown="100"/>
+    <toolsettings id="SP1ENG" speeddown="30" zposup="800" zposdown="-540"/>
+    <toolsettings id="SP1" speeddown="30" zposup="800"/>
+    <toolsettings id="SP2" speeddown="5" zposup="800"/>
+  </material>
+
+  <material id="foamboard_10mm" display="Foamboard 10 mm" BoundBoxTool="SP2">
+    <toolsettings id="SP1CUT" speeddown="20" zposup="1300" zposdown="100"/>
+    <toolsettings id="SP1ENG" speeddown="20" zposup="2000" zposdown="-1050"/>
+    <toolsettings id="SP1" speeddown="20" zposup="1300"/>
+    <toolsettings id="SP2" speeddown="4" zposup="1300"/>
+  </material>
+
+</materials>

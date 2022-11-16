@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+  
+  <device id="M1200R" text="Zünd MS - 1200 RefP">
+        
+    <!-- relation mm to device unit -->
+    <property id="factor" value="100"/>
+
+    <!-- size of the usable area -->
+    <property id="workzone" x="1201" y="1201"/>
+
+    <!-- toolname for cutting a box arround all geomtries -->
+    <property id="BoundingTool" text="SP2"/>
+    
+    <!-- distance between geometry and the cutted box -->
+    <property id="BBoxOffset" value="5"/>
+
+    <!-- timeout for optimization in  in milliseconds after that time the the optimation process will be stoped -->
+    <property id="TimeoutOptimization" value="10000"/>
+    
+    <!-- comma seperated list of order to cut -->
+    <property id="ToolOrder" text="SP4,SP1,SP2" />
+   
+    <!-- delay for power vacumpump up in milliseconds-->
+    <property id="delay" value="300" />
+
+    <!-- acceleration values will be used by the time forecast calcualtion -->
+    <property id="downacceleration" value="2" />
+    <property id="upacceleration" value="4" />
+
+    <!-- PenUP;PenAbsolute;PowerBox2(Vacuumpump),On;Delay {3sec};AccerationSelect {down=2.5m/ss},{up=10m/ss};Referencepoint to 0,0-->
+    <!-- be careful with the first command, this will also used for identifying the plt files -->
+    <property id="prejob" text="PU;PA;PB2,1;SD{delay};AS{downacceleration},{upacceleration};RS0,0,0;"/>
+
+    <!-- Job No 0(EndOfJob Signal to the Plugin);PenUp and TopLeft Corner;PowerBox2(Vacuumpump),off;Message how finnished the job;NotReady(offline)-->
+    <property id="postjob" text="JB0;PU100000,100000;PB2,0;XX12,2;MSDone by {username};NR;"/>
+
+    <!-- the command to switch the device online this will be send as frontend command -->
+    <property id="SwitchOnline" text="ZF5;" />
+    
+    <!-- switch on(1) /off(0) the Reference point feature, check that the pretool or prejob properties setup right -->
+    <property id="ReferencePoint" value="1" />
+
+    <!-- switch on(1) /off(0) the turning the direction from paths during path optimazation if its a shorter path.  
+    caused by the eccentricity of the tip of the knife if its switched on the precsision can by lower -->
+    <property id="turnDirection" value="0" />
+    
+    <!-- switch on(1) /off(0) a warning before you cut if the default material is still loaded -->
+    <property id="DefaultMaterialWarning" value="1" />
+
+    <!-- switch on(1) /off(0) that after a job was send to the device, the default material is reselected -->
+    <property id="SwitchDefaultMaterialAtEnd" value="1" />
+    
+    <conduit id="absolute">
+      <!-- mm -->
+      <!-- fix -->
+      <!-- a rectangle for the cutting area -->
+      <!--    ┌───┐      -->
+      <!--    │   │      -->
+      <!--    └───┘      -->
+      <line x1="0" y1="0" x2="1200" y2="0"/>
+      <line x1="1200" y1="0" x2="1200" y2="1200"/>
+      <line x1="1200" y1="1200" x2="0" y2="1200"/>
+      <line x1="0" y1="1200" x2="0" y2="0"/>
+
+      <!-- left and right edge -->
+      <!--  │ ┌───┐ │    -->
+      <!--  │ │   │ │    -->
+      <!--  │ └───┘ │    -->
+      <line x1="-100" y1="-150" x2="-100" y2="1402"/>
+      <line x1="1484" y1="-150" x2="1484" y2="1402"/>
+
+      <!-- top string -->
+      <!-- ┌──┬──────┐   -->
+      <!-- └┬─┴─────┬┘   -->
+      <!--  │ ┌───┐ │    -->
+      <!--  │ │   │ │    -->
+      <!--  │ └───┘ │    -->
+      <line x1="-108" y1="1402" x2="1544" y2="1402"/>
+      <line x1="-108" y1="1547" x2="1544" y2="1547"/>
+
+      <line x1="-108" y1="1402" x2="-108" y2="1547"/>
+      <line x1="192" y1="1402" x2="192" y2="1547"/>
+      <line x1="1544" y1="1402" x2="1544" y2="1547"/>
+
+      <!-- lower string -->
+      <!-- ┌──┬──────┐   -->
+      <!-- └┬─┴─────┬┘   -->
+      <!--  │ ┌───┐ │    -->
+      <!--  │ │   │ │    -->
+      <!--  │ └───┘ │    -->
+      <!-- ┌┴─┬─────┴┐   -->
+      <!-- └──┴──────┘   -->
+      <line x1="-108" y1="-150" x2="1544" y2="-150"/>
+      <line x1="-108" y1="-295" x2="1544" y2="-295"/>
+
+      <line x1="-108" y1="-150" x2="-108" y2="-295"/>
+      <line x1="192" y1="-150" x2="192" y2="-295"/>
+      <line x1="1544" y1="-150" x2="1544" y2="-295"/>
+
+      <!-- control panel -->
+      <!-- ┌─────────┐   -->
+      <!-- └┬───────┬┘   -->
+      <!--  │ ┌───┐ │    -->
+      <!--  │ │   │ │    -->
+      <!--  │ └───┘ │    -->
+      <!-- ╔╧═╗─────┴┐   -->
+      <!-- ╚══╝──────┘   -->
+      <line x1="-88" y1="-170" x2="172" y2="-170"/>
+      <line x1="-88" y1="-275" x2="172" y2="-275"/>
+      <line x1="-88" y1="-170" x2="-88" y2="-275"/>
+      <line x1="172" y1="-170" x2="172" y2="-275"/>
+
+    </conduit>
+
+    <conduit id="refpoint">
+      <!-- mm -->
+      <!-- wird mit refpoint gesetzt -->
+      <!-- kleines kreuz -->
+      <line x1="-10" y1="-10" x2="10" y2="10"/>
+      <line x1="-10" y1="10" x2="10" y2="-10"/>
+    </conduit>
+
+    <tool id="SP1">    
+      
+      <!-- cm per s-->
+      <!-- traveling speed -->
+      <property id="speedup" value="100" min="0.1" max="100" text="Speed Up [mm/s]" displayfactor="10" ishidden="false"/>
+      
+      <!-- cm per s-->
+      <!-- traveling speed -->
+      <property id="speeddown" value="20" min="0.1" max="100" text="Speed Down [mm/s]" displayfactor="10" ishidden="false"/>
+          
+      <!-- Plotterunits -->
+      <!-- z-up travel height -->
+      <property id="zposup" value="2000" min="500" max="2500" text="Z-Position up [mm]" displayfactor="0.01" ishidden="false"/>
+      
+      <!-- Z-Axis Position down -->
+      <property id="zposdown" value="0" min="0" max="2500" text="Z-Position down [mm]" displayfactor="0.01" ishidden="false" />
+      
+      <!-- Toolname;ZPosition up,down;Speed downspeed,Upspeed, CircleResulution-->
+      <property id="pretool" text="XX12,2;MSTool:{id};{id};ZP{zposup},{zposdown};VS{speeddown},{speedup};CR 2.0;" ishidden="false" />
+     
+      <!-- PenUp; -->
+      <property id="posttool" text="ZP10000,0;PU;" />
+      
+      <!-- we need this to calculated the estimated process time -->
+      <!-- in millisecond-->
+      <property id="interuptiontime" value="10"  min="0" max="10000" text="InterruptionTime [ms]" ishidden="false" />
+      
+    </tool>
+
+    <tool id="SP2">
+     
+      <!-- travel speed -->
+      <!-- cm per s-->
+      <property id="speedup" value="100" min="0.1" max="100" text="Speed Up [mm/s]" displayfactor="10" ishidden="false"/>
+      
+      <!-- cutting speed -->
+      <!-- cm per s-->
+      <property id="speeddown" value="0.1" min="0.1" max="50" text="Speed Down [mm/s]"  displayfactor="10" ishidden="false"/>
+      
+      <!-- Plotterunits -->
+      <!-- z-up travel height -->
+      <property id="zposup" value="1200" min="500" max="2500" text="Z-Position up [mm]" displayfactor="0.01" ishidden="false"/>
+      
+      <!-- Z-Axis Position down -->
+      <property id="zposdown" value="0" min="0" max="2500" text="Z-Position down [mm]" displayfactor="0.01" ishidden="false"/>
+     
+      <!-- Toolname;ZPosition up,down;Speed downspeed,Upspeed, CircleResulution-->
+      <property id="pretool" text="XX12,2;MSTool:{id};{id};ZP{zposup},{zposdown};VS{speeddown},{speedup};CR 2.0;" ishidden="false"/>
+      
+      <!-- PenUp; -->
+      <property id="posttool" text="ZP10000,0;PU;" />
+     
+      <!-- we need this to calculated the estimated process time -->
+      <!-- in millisecond-->
+      <property id="interuptiontime" value="250"  min="0" max="10000" text="InterruptionTime [ms]" ishidden="true"/>
+    
+    </tool>
+
+    <tool id="SP4">
+
+      <!-- travel speed -->
+      <!-- cm per second -->
+      <property id="speedup" value="100" min="0.1" max="100" text="Speed Up [mm/s]" displayfactor="10" ishidden="true"/>
+     
+      <!-- writing speed -->
+      <!-- cm per second -->
+      <property id="speeddown" value="100" min="0.1" max="100" text="Speed Down [mm/s]" displayfactor="10" ishidden="false"/>
+      
+      <!-- Z-Axis position up, hidden because useless for the pentool -->
+      <!-- plotterunits -->
+      <property id="zposup" value="500" min="0" max="2500" displayfactor="0.01" text="Z-Position up [mm]" ishidden="true"/>
+      
+      <!-- Z-Axis position down, hidden because useless for the pentool -->
+      <!-- plotterunits -->
+      <property id="zposdown" value="250" min="0" max="2500" displayfactor="0.01" text="Z-Position down [mm]" ishidden="true"/>
+      
+      <!-- Toolname;Z-position up,down;Speed downspeed,upspeed, CircleResulution -->
+      <property id="pretool" text ="XX12,2;MSTool:{id};{id};VS{speeddown},{speedup};CR 2.0;" ishidden="true"/>
+      
+      <!-- PenUp; this is not realy necassary but it is save-->
+      <property id="posttool" text="PU;" ishidden="true"/>
+      
+      <!-- we need this to calculated the estimated process time -->
+      <!-- in millisecond-->
+      <property id="interuptiontime" value="10"  min="0" max="10000" text="InterruptionTime [ms]" ishidden="true"/>
+      
+    </tool>
+
+  </device>

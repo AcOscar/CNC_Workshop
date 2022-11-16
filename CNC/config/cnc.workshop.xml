@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+Set the default device to the device which is connected to the computer
+-->
+<workshop DefaultDevice="M1200">
+
+  <!--
+  a controller is a device hows connected with the cutter
+  the pair parameter defineds which device will be controlled by which computer in the form:
+  device id @ computername of the controllcomputer
+  if the curent computer not descript as controller,
+  the DefaultDevice will be used, otherwise the device at the pair parameter
+  the connection attribute has to use the connector's id
+  -->
+  
+  <!-- controll computer for the Eurolaser -->
+  <controller pair="S800@BSL-DE35-01058" connnection="Serialport 1"/>
+
+  <!-- controll computer for the Zünd cutter M-1200 -->
+  <controller pair="M1200@BSL-DE35-01180" connnection="Serialport 1"/>
+  
+  <!-- controll computer for the Zünd cutter M-1200 -->
+  <controller pair="S3_M1200@BSL-DE46-1764" connnection="Serialport 1"/>
+
+  <!-- Holgers computer -->
+  <controller pair="M1200@BSL-DE35-1208" connnection="Serialport 3s"/>
+
+  <controller pair="S3_M1200@BSL-DE46-1764" connnection="Serialport 1"/>
+
+  <!-- DT5 laptop computer -->
+  <controller pair="S3_M1200@mob-de40-1294" connnection="Serialport 3"/>
+  
+  <!-- 
+  parity 0=none 1=odd 2=even 3=mark 4=space
+  handshake 0=none 1=XOnXOff 2=RequestToSend 3=RequestToSendXOnXOff
+  stopbits 0=none 1=one 2=two 3=OnePointFive
+  -->
+ 
+  <!-- usally we use Serialport 1, only for debuging with the USB to Serial converter we use port 3 -->
+
+  <!-- this is using by DELL Precision 1500 internal COM Port-->
+  <connector type="serial" id="Serialport 1" port="COM1" speed="19200" parity="0" databits="8" stopbits="1" handshake="2" readtimeout="500" writetimeout="2000"/>
+  
+  <!-- this is using by Holger to connect at a virtual COM port for developing purpose he has diferent handshake value-->
+  <connector type="serial" id="Serialport 3s" port="COM3" speed="19200" parity="0" databits="8" stopbits="1" handshake="0" readtimeout="500" writetimeout="2000"/>
+
+  <!-- the USB to Seriell Adapter at the DT Laptops using COM3-->
+  <connector type="serial" id="Serialport 3" port="COM3" speed="19200" parity="0" databits="8" stopbits="1" handshake="2" readtimeout="500" writetimeout="2000"/>
+
+  <!-- switch on(1) /off(0) that every job will be logged in to a logfile -->
+  <property id="JobLog" value="1" />
+
+  <!-- 
+  the file location directory for the job log, every mount a new file will generated
+  -->
+  <property id="JobLogLocation" text="W:\01 AUTOCAD\CutterLog" />
+
+</workshop>

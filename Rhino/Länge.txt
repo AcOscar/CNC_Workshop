@@ -1,0 +1,100 @@
+﻿30.07.2013
+CNC_geometry:	704
+cnc_HW			2557
+cnc:config		834
+io				422
+optimizer		650
+Rhino			2914
+UI				240
+responder		164
+
+sum				8485
+
+07.08.2013
+CNC_geometry:	704
+cnc_HW			2586
+cnc:config		834
+io				353
+optimizer		650
+Rhino			2944
+UI				244
+responder		164
+
+sum				8479
+
+16.08.2013
+CNC_geometry:	744
+cnc_HW			2556
+cnc:config		833
+io				356
+optimizer		812
+Rhino			2929
+UI				285
+responder		164
+
+sum				8679
+
+16.09.2013
+CNC_geometry:	744
+cnc_Helpers		84
+cnc_HW			2538
+cnc:config		834
+io				365
+optimizer		807
+Rhino			2937
+UI				285
+responder		232
+
+sum				8826
+
+3.10.2013
+cnc:config		478
+cnc:geometry	751
+cnc:hardware	2677
+cnc:helpers		94
+cnc:io			354
+opti			503
+rhino			2373
+ui				3
+responder		232
+
+sum				7465
+
+21.10.2013
+cnc:config		503
+cnc:geometry	565
+cnc:hardware	2046
+cnc:helpers		104
+cnc:io			236
+opti			424
+rhino			2847
+ui				3
+responder		232
+
+sum				6951
+
+29.10.2013
+cnc:config		486
+cnc:geometry	566
+cnc:hardware	2441
+cnc:helpers		115
+cnc:io			232
+opti			453
+rhino			2807
+ui				3
+responder		232
+
+sum				7335
+
+26.11.2013
+cnc:config		430
+cnc:geometry	606
+cnc:hardware	2466
+cnc:helpers		118
+cnc:io			363
+opti			451
+parser			445
+rhino			3044
+ui				59
+
+sum				7982

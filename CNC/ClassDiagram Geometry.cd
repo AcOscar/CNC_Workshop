@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="WrkShp.Arc">
+    <Position X="0.5" Y="4.25" Width="1.5" />
+    <Members>
+      <Property Name="FirstPoint" Hidden="true" />
+      <Property Name="HPGL" Hidden="true" />
+      <Property Name="isReverted" Hidden="true" />
+      <Property Name="LastPoint" Hidden="true" />
+      <Property Name="Length" Hidden="true" />
+      <Property Name="maxPoint" Hidden="true" />
+      <Property Name="minPoint" Hidden="true" />
+      <Method Name="ReversPointOrder" Hidden="true" />
+      <Method Name="Transform" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAKQAAARAgCAAAAAAAQAAAAAMAAA=</HashCode>
+      <FileName>Geometry\Arc.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WrkShp.Coordinate">
+    <Position X="2.25" Y="4.25" Width="1.5" />
+    <Members>
+      <Field Name="_x" Hidden="true" />
+      <Field Name="_y" Hidden="true" />
+      <Property Name="FirstPoint" Hidden="true" />
+      <Property Name="HPGL" Hidden="true" />
+      <Property Name="isReverted" Hidden="true" />
+      <Property Name="LastPoint" Hidden="true" />
+      <Property Name="Length" Hidden="true" />
+      <Property Name="maxPoint" Hidden="true" />
+      <Property Name="minPoint" Hidden="true" />
+      <Method Name="New" Hidden="true" />
+      <Method Name="Operator -" Hidden="true" />
+      <Method Name="Operator &lt;&gt;" Hidden="true" />
+      <Method Name="Operator =" Hidden="true" />
+      <Method Name="ReversPointOrder" Hidden="true" />
+      <Method Name="ToString" Hidden="true" />
+      <Method Name="Transform" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEAAQgIAAQAAACEAKQAAARAgCAAAAAAAQAAAAAEYAA=</HashCode>
+      <FileName>Geometry\Coordinate.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WrkShp.GeometryObject">
+    <Position X="2" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAKQAAARAgCAAAAAAAQAAAQAEAAA=</HashCode>
+      <FileName>Geometry\GeometryObject.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WrkShp.PolyLine">
+    <Position X="4" Y="4.25" Width="1.5" />
+    <Members>
+      <Field Name="_isReverted" Hidden="true" />
+      <Property Name="FirstPoint" Hidden="true" />
+      <Property Name="HPGL" Hidden="true" />
+      <Property Name="isReverted" Hidden="true" />
+      <Property Name="LastPoint" Hidden="true" />
+      <Property Name="Length" Hidden="true" />
+      <Property Name="maxPoint" Hidden="true" />
+      <Property Name="minPoint" Hidden="true" />
+      <Method Name="New" Hidden="true" />
+      <Method Name="ReversPointOrder" Hidden="true" />
+      <Method Name="Transform" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAKQAAARAgCAAAAAAAQAAAAAEAAA=</HashCode>
+      <FileName>Geometry\PolyLine.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WrkShp.SerPort" Collapsed="true">
+    <Position X="12" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAQAAAAAAIAACAIAAIAAAAAAIAAACAAAAACCEAAA=</HashCode>
+      <FileName>IO\SerPort.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WrkShp.CNC_Controller">
+    <Position X="13.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAgAAAEAAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Hardware\CNC_Controller.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WrkShp.CNC_Workshop">
+    <Position X="5.75" Y="0.5" Width="2" />
+    <Members>
+      <Method Name="Handle_serialPort_DataRecieved" Hidden="true" />
+      <Method Name="Handles_serialPort_DataBlockSended" Hidden="true" />
+      <Method Name="New" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>QmSBAAAKkACAAAACBJAYAIAIQABQAgAAAACAAAKAABA=</HashCode>
+      <FileName>Hardware\CNC_Workshop.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WrkShp.CNC_Device">
+    <Position X="8.25" Y="0.5" Width="2.25" />
+    <Members>
+      <Field Name="_currentObjectIndex" Hidden="true" />
+      <Field Name="_withBBox" Hidden="true" />
+      <Field Name="_WorkingLength" Hidden="true" />
+      <Method Name="New" Hidden="true" />
+      <Method Name="ToString" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>gYEQgKRAEIAAgCkkIKCACAIBAAAoQgSAQIgIBgACCAA=</HashCode>
+      <FileName>Hardware\CNC_Device.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WrkShp.CNC_Material">
+    <Position X="13.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgCAEgAAAAAQAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Hardware\CNC_Material.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WrkShp.CNC_Property">
+    <Position X="15.25" Y="0.5" Width="1.5" />
+    <Members>
+      <Field Name="_DefaultValue" Hidden="true" />
+      <Method Name="New" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>ACAQEAAAAAgQgAAEAAAAAAQAEABAAAAAAAAgCAAAYAA=</HashCode>
+      <FileName>Hardware\CNC_Property.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WrkShp.CNC_Tool">
+    <Position X="11" Y="0.5" Width="2.25" />
+    <Members>
+      <Method Name="New" Hidden="true" />
+      <Method Name="ToString" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>ERkAACAAAAgAigQEgCIAAAAAABLggAABAACIQAECgAI=</HashCode>
+      <FileName>Hardware\CNC_Tool.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WrkShp.CNC_ToolSetting">
+    <Position X="15.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAMAAAAgAhAAFIAACACBAAAAAAAAAABAACQAAAAA=</HashCode>
+      <FileName>Hardware\CNC_ToolSetting.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WrkShp.HPGL_Reader">
+    <Position X="17" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>ACAAABAAAAAABJABAQgAQAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Parser\HPGL_Reader.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

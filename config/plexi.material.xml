@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<materials>
+
+  <material id="plexi_06mm" display="Plexi 0.6 mm" BoundBoxTool="Cut">
+    <toolsettings id="Cut" speeddown="20" powerwork="100"/>
+    <toolsettings id="Eng" speeddown="10" powerwork="8"/>
+  </material>
+  
+  <material id="plexi_1mm" display="Plexi 1 mm" BoundBoxTool="Cut">
+    <toolsettings id="Cut" speeddown="10" powerwork="100"/>
+    <toolsettings id="Eng" speeddown="10" powerwork="10"/>
+  </material>
+
+  <material id="plexi_15mm" display="Plexi 1.5 mm" BoundBoxTool="Cut">
+    <toolsettings id="Cut" speeddown="7" powerwork="100"/>
+    <toolsettings id="Eng" speeddown="10" powerwork="8"/>
+  </material>
+
+  <material id="plexi_2mm" display="Plexi 2 mm" BoundBoxTool="Cut">
+    <toolsettings id="Cut" speeddown="4" powerwork="100"/>
+    <toolsettings id="Eng" speeddown="10" powerwork="8"/>
+  </material>
+
+  <material id="plexi_3mm" display="Plexi 3 mm" BoundBoxTool="Cut">
+    <toolsettings id="Cut" speeddown="2.7" powerwork="100"/>
+    <toolsettings id="Eng" speeddown="10" powerwork="8"/>
+  </material>
+
+  <material id="plexi_4mm" display="Plexi 4 mm" BoundBoxTool="Cut">
+    <toolsettings id="Cut" speeddown="1.7" powerwork="100"/>
+    <toolsettings id="Eng" speeddown="10" powerwork="8"/>
+  </material>
+
+  <material id="plexi_5mm" display="Plexi 5 mm" BoundBoxTool="Cut">
+    <toolsettings id="Cut" speeddown="1.4" powerwork="100"/>
+    <toolsettings id="Eng" speeddown="10" powerwork="8"/>
+  </material>
+  
+  <material id="plexi_6mm" display="Plexi 6 mm" BoundBoxTool="Cut">
+    <toolsettings id="Cut" speeddown="1" powerwork="100"/>
+    <toolsettings id="Eng" speeddown="10" powerwork="8"/>
+  </material>
+  
+  <material id="plexi_75mm" display="Plexi 7.5 mm" BoundBoxTool="Cut">
+    <toolsettings id="Cut" speeddown="0.7" powerwork="100"/>
+    <toolsettings id="Eng" speeddown="10" powerwork="8"/>
+  </material>
+  
+  <material id="plexi_8mm" display="Plexi 8 mm" BoundBoxTool="Cut">
+    <toolsettings id="Cut" speeddown="0.6" powerwork="100"/>
+    <toolsettings id="Eng" speeddown="10" powerwork="8"/>
+  </material>
+
+</materials>

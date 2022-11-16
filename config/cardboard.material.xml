@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<materials>
+
+  <material id="cardboard_paper" display="Paper &lt; 0.6 mm" BoundBoxTool="SP2">
+    <toolsettings id="SP1CUT" speeddown="20" zposup="500" zposdown="100"/>
+    <toolsettings id="SP1ENG" speeddown="20" zposup="500" zposdown="-20"/>
+    <toolsettings id="SP2" speeddown="4"  zposup="500"/>
+  </material>
+
+  <material id="cardboard_06mm" display="Cardboard 0.6 mm" BoundBoxTool="SP2">
+    <toolsettings id="SP1CUT" speeddown="20" zposup="500" zposdown="100"/>
+    <toolsettings id="SP1ENG" speeddown="20" zposup="500" zposdown="-20"/>
+    <toolsettings id="SP2" speeddown="7"  zposup="500"/>
+  </material>
+
+  <material id="cardboard_1mm" display="Cardboard 1.0 mm" BoundBoxTool="SP2">
+    <toolsettings id="SP1CUT" speeddown="20" zposup="500" zposdown="100"/>
+    <toolsettings id="SP1ENG" speeddown="20" zposup="500" zposdown="-50"/>
+    <toolsettings id="SP2" speeddown="7"  zposup="500"/>
+  </material>
+
+  <material id="cardboard_15mm" display="Cardboard 1.5 mm" BoundBoxTool="SP2">
+    <toolsettings id="SP1CUT" speeddown="20" zposup="500" zposdown="150"/>
+    <toolsettings id="SP1ENG" speeddown="20" zposup="500" zposdown="-100"/>
+    <toolsettings id="SP2" speeddown="7"  zposup="500"/>
+  </material>
+
+  <material id="cardboard_2mm" display="Cardboard 2.0 mm" BoundBoxTool="SP2">
+    <toolsettings id="SP1CUT" speeddown="10" zposup="500" zposdown="100"/>
+    <toolsettings id="SP1ENG" speeddown="10" zposup="500" zposdown="-150"/>
+    <toolsettings id="SP2" speeddown="7"  zposup="500"/>
+   </material>
+
+  <material id="cardboard_25mm" display="Cardboard 2.5 mm" BoundBoxTool="SP2">
+    <toolsettings id="SP1CUT" speeddown="10" zposup="500" zposdown="100"/>
+    <toolsettings id="SP1ENG" speeddown="10" zposup="500" zposdown="-200"/>
+    <toolsettings id="SP2" speeddown="7"  zposup="500"/>
+   </material>
+
+  <material id="cardboard_3mm" display="Cardboard 3.0 mm" BoundBoxTool="SP2">
+    <toolsettings id="SP1CUT" speeddown="7" zposup="500" zposdown="100"/>
+    <toolsettings id="SP1ENG" speeddown="7" zposup="500" zposdown="-250"/>
+    <toolsettings id="SP2" speeddown="7"  zposup="500"/>
+  </material>
+
+ </materials>

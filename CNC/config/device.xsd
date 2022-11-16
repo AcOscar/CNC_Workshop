@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="device">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" name="property">
+          <xs:complexType>
+            <xs:attribute name="id" type="xs:string" use="required" />
+            <xs:attribute name="value" type="xs:unsignedShort" use="optional" />
+            <xs:attribute name="x" type="xs:unsignedShort" use="optional" />
+            <xs:attribute name="y" type="xs:unsignedShort" use="optional" />
+            <xs:attribute name="text" type="xs:string" use="optional" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element maxOccurs="unbounded" name="conduit">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="line">
+                <xs:complexType>
+                  <xs:attribute name="x1" type="xs:short" use="required" />
+                  <xs:attribute name="y1" type="xs:short" use="required" />
+                  <xs:attribute name="x2" type="xs:short" use="required" />
+                  <xs:attribute name="y2" type="xs:short" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:string" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element maxOccurs="unbounded" name="tool">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="property">
+                <xs:complexType>
+                  <xs:attribute name="id" type="xs:string" use="required" />
+                  <xs:attribute name="value" type="xs:decimal" use="optional" />
+                  <xs:attribute name="min" type="xs:decimal" use="optional" />
+                  <xs:attribute name="max" type="xs:unsignedShort" use="optional" />
+                  <xs:attribute name="text" type="xs:string" use="required" />
+                  <xs:attribute name="displayfactor" type="xs:decimal" use="optional" />
+                  <xs:attribute name="ishidden" type="xs:boolean" use="optional" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:string" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:string" use="required" />
+      <xs:attribute name="text" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
