@@ -159,7 +159,7 @@ Public Class CNC_GeometryBlock
     ''' generates the HPGL code from all geometry from this geometry block and put them into the Device.JobBuffer
     ''' </summary>
     ''' <param name="turnDirection"></param>
-    Sub GenerateHPGL(ByVal turnDirection As Boolean)
+    Sub GenerateCode(ByVal turnDirection As Boolean)
 
         If Geometry Is Nothing Then
 
@@ -189,7 +189,14 @@ Public Class CNC_GeometryBlock
 
             End If
 
-            Device.JobBuffer.Append(g.HPGL(CInt(Device.Factor)))
+            If Device.Language = "GCODEM3" Then
+
+                Device.JobBuffer.Append(g.GC3(CInt(Device.Factor), Device.Digits))
+
+            Else
+                Device.JobBuffer.Append(g.HPGL(CInt(Device.Factor)))
+
+            End If
 
         Next
 
@@ -201,33 +208,37 @@ Public Class CNC_GeometryBlock
     Private Sub Curtool_ObjectBegin(ByRef GeomObj As GeometryObject)
         Device.CounterItem += 1
 
-        Device.JobBuffer.Append("JB" & Device.CounterItem & ";")
+        If Me.Device.Language = "HPGL" Then
 
-        If LayerKey > Integer.MinValue Then
+            Device.JobBuffer.Append("JB" & Device.CounterItem & ";")
 
-            Dim myPercent As Integer
 
-            'only if we cut one point
-            If Device.WorkingLength > 0 Then
+            If LayerKey > Integer.MinValue Then
 
-                myPercent = CInt(CLng(Device.CounterLength * 100) \ CLng(Device.WorkingLength))
+                Dim myPercent As Integer
+
+                'only if we cut one point
+                If Device.WorkingLength > 0 Then
+
+                    myPercent = CInt(CLng(Device.CounterLength * 100) \ CLng(Device.WorkingLength))
+                Else
+
+                    myPercent = 0
+
+                End If
+
+                Dim myDisplayText As String = myPercent & " %" ' myPercent & "% of " & Device.EstimatenTotalMinutes & " min"
+
+                Device.JobBuffer.Append("XX12,2;MS" & myDisplayText & ";")
+
+                Device.CounterLength += GeomObj.Length
+
             Else
 
-                myPercent = 0
+                'todo: BBOX
+                Device.JobBuffer.Append("XX12,2;MSBounding Box;")
 
             End If
-
-            Dim myDisplayText As String = myPercent & " %" ' myPercent & "% of " & Device.EstimatenTotalMinutes & " min"
-
-            Device.JobBuffer.Append("XX12,2;MS" & myDisplayText & ";")
-
-            Device.CounterLength += GeomObj.Length
-
-        Else
-
-            'todo: BBOX
-            Device.JobBuffer.Append("XX12,2;MSBounding Box;")
-
         End If
 
     End Sub

@@ -65,6 +65,9 @@
                 Case "text"
                     Text = myProp.Attribute("text").Value.ToString
 
+                Case "language"
+                    Text = myProp.Attribute("text").Value.ToString
+
                 Case "min"
                     Min = Convert.ToDouble(myProp.Attribute("min").Value.ToString)
 

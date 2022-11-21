@@ -3,7 +3,7 @@
 <!--
 Set the default device to the device which is connected to the computer
 -->
-<workshop DefaultDevice="M1200">
+<workshop DefaultDevice="M1000">
 
   <!--
   a controller is a device hows connected with the cutter

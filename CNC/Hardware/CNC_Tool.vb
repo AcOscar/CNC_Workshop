@@ -121,7 +121,8 @@ Public Class CNC_Tool
     ''' <summary>
     ''' HPGL commands to initailize the tool
     ''' </summary>
-    Public Sub GenerateHPGL_PreTool()
+    Public Sub GenerateCode_PreTool()
+        'Public Sub GenerateHPGL_PreTool()
 
         Dim JobString As String
 
@@ -138,7 +139,8 @@ Public Class CNC_Tool
     ''' <summary>
     ''' HPGL commands to shutdown the tool
     ''' </summary>
-    Public Sub GenerateHPGL_PostTool()
+    Public Sub GenerateCode_PostTool()
+        'Public Sub GenerateHPGL_PostTool()
 
         Dim JobString As String
 

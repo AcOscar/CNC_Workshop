@@ -147,6 +147,26 @@ Public Class PolyLine
     ''' the HPGL represantation of the Geometry
     ''' </summary>
     ''' <param name="Factor">the devicefactor between device units and mm</param>
+    Public Overrides ReadOnly Property GC3(ByVal Factor As Integer, Digits As Integer) As String
+        Get
+            Dim _Return As New Text.StringBuilder
+
+            'move up and go to start of line and pen down
+            '_Return.AppendFormat("PU{0},{1};", Math.Round(Points(0).X * Factor), Math.Round(Points(0).Y * Factor))
+            _Return.AppendFormat("G0X{0}Y{1}Z#1" & vbCrLf, Math.Round(Points(0).X * Factor, Digits), Math.Round(Points(0).Y * Factor, Digits))
+
+            For i As Integer = 0 To Points.Count - 1
+                'each point as simple pair
+                _Return.AppendFormat("G1X{0}Y{1}Z#2" & vbCrLf, Math.Round(Points(i).X * Factor, Digits), Math.Round(Points(i).Y * Factor, Digits))
+
+            Next
+
+            _Return.Append("G0Z#1" & vbCrLf)
+
+            Return _Return.ToString
+
+        End Get
+    End Property
     Public Overrides ReadOnly Property HPGL(ByVal Factor As Integer) As String
         Get
             Dim _Return As New Text.StringBuilder

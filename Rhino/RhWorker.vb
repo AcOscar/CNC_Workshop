@@ -71,7 +71,9 @@ Public Class RhWorker
 
                             Dim mycncArc As New Arc With {
                                 .Center = New Coordinate(myArc.Arc.Center.X - ZeroPoint.X, myArc.Arc.Center.Y - ZeroPoint.Y),
-                                .Radius = myArc.Arc.Radius
+                                .Radius = myArc.Arc.Radius,
+                                .StartPoint = New Coordinate(myArc.Arc.StartPoint.X - ZeroPoint.X, myArc.Arc.StartPoint.Y - ZeroPoint.Y),
+                                .EndPoint = New Coordinate(myArc.Arc.EndPoint.X - ZeroPoint.X, myArc.Arc.EndPoint.Y - ZeroPoint.Y)
                             }
 
                             myObj = mycncArc
@@ -219,7 +221,9 @@ Public Class RhWorker
 
             Dim layer_table As Tables.LayerTable = doc.Layers
 
+#Disable Warning BC40000 ' Type or member is obsolete
             Dim layer_index As Integer = layer_table.Find(LayerName.TrimStart, True)
+#Enable Warning BC40000 ' Type or member is obsolete
 
             layer_table(layer_index).SetUserString(ToolKey, ToolName)
 
@@ -309,7 +313,9 @@ Public Class RhWorker
             LayerGrid.Rows(n).Cells(2).Value = l.SortIndex
 
             'the 4.colum is also hidden but we need the layerindex later for the selection process, and on this way we have a sorted list of the layer
+#Disable Warning BC40000 ' Type or member is obsolete
             LayerGrid.Rows(n).Cells(3).Value = l.LayerIndex
+#Enable Warning BC40000 ' Type or member is obsolete
 
             n += 1
 
@@ -335,7 +341,9 @@ Public Class RhWorker
         If l.ParentLayerId <> Guid.Empty Then
 
             'Layername = "    " & GetParentString(getLayerById(l.ParentLayerId))
+#Disable Warning BC40000 ' Type or member is obsolete
             Dim parentindex As Integer = RhinoDoc.ActiveDoc.Layers.Find(l.ParentLayerId, True)
+#Enable Warning BC40000 ' Type or member is obsolete
 
             Dim Parentlayer As Layer = RhinoDoc.ActiveDoc.Layers.Item(parentindex)
 
@@ -684,11 +692,11 @@ Public Class RhWorker
     Private ElapsedLength As Double
 
     ''' <summary>
-    ''' Creates the job (HPGL) commands for the entire job
+    ''' Creates the job (HPGL or G-Code) commands for the entire job
     ''' </summary>
     Public Sub CreateJobString(ByVal Device As CNC_Device,
-                            ByVal PreviewWasOn As Boolean,
-                            ByVal withTrace As Boolean)
+                                ByVal PreviewWasOn As Boolean,
+                                ByVal withTrace As Boolean)
 
         If Not PreviewWasOn Then 'preview indicates that all objects are collected and optimized
 
@@ -728,7 +736,8 @@ Public Class RhWorker
 
         If Device.TotalGeometryCount > 0 Then
 
-            Device.GenerateHPGL()
+            'Device.GenerateHPGL()
+            Device.Generate_CodeJob()
 
         End If
 

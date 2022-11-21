@@ -268,6 +268,7 @@ Public Class CNC_Device
     ''' </summary>
     ''' <remarks>defined in device.xml</remarks>
     Public Property ID As String
+    Public ReadOnly Property Digits As Integer
 
     ''' <summary>
     ''' the readable name of the device
@@ -357,6 +358,8 @@ Public Class CNC_Device
         ProxyRefPoint = New List(Of GeometryObject)
 
         ID = "--"
+
+        Digits = 0
 
     End Sub
 
@@ -541,6 +544,10 @@ Public Class CNC_Device
                     Case "cameraresolution"
                         Me.CameraResolution = myProp.Text
 
+                    Case "digits"
+                        _Digits = CInt(myProp.Value)
+
+
                 End Select
 
             End If
@@ -560,17 +567,20 @@ Public Class CNC_Device
     ''' <summary>
     ''' create the HPGL string for the entire job
     ''' </summary>
-    Public Sub GenerateHPGL()
 
+    Public Sub Generate_CodeJob()
+        'Public Sub GenerateHPGL()
         CounterItem = 0
 
         CounterLength = 0
 
-        GenerateHPGL_PreJob()
+        'GenerateHPGL_PreJob()
+        Generate_CodePreJob()
 
         Dim LastToolID As String = Me.GeometryBlocks(0).Tool.ID
 
-        Me.GeometryBlocks(0).Tool.GenerateHPGL_PreTool()
+        'Me.GeometryBlocks(0).Tool.GenerateHPGL_PreTool()
+        Me.GeometryBlocks(0).Tool.GenerateCode_PreTool()
 
         ' Do
         For i As Integer = 0 To Me.GeometryBlocks.Count - 1
@@ -578,29 +588,30 @@ Public Class CNC_Device
             If LastToolID <> Me.GeometryBlocks(i).Tool.ID Then
 
                 'close the previous tool
-                Me.GeometryBlocks(i - 1).Tool.GenerateHPGL_PostTool()
+                Me.GeometryBlocks(i - 1).Tool.GenerateCode_PostTool()
                 'open the new tool
-                Me.GeometryBlocks(i).Tool.GenerateHPGL_PreTool()
+                Me.GeometryBlocks(i).Tool.GenerateCode_PreTool()
 
             End If
 
             'CurrentGBlock.GenerateHPGL(Me.turnDirection)
-            Me.GeometryBlocks(i).GenerateHPGL(Me.TurnDirection)
+            Me.GeometryBlocks(i).GenerateCode(Me.TurnDirection)
 
             LastToolID = Me.GeometryBlocks(i).Tool.ID
 
         Next
         'close the last tool
-        Me.GeometryBlocks(Me.GeometryBlocks.Count - 1).Tool.GenerateHPGL_PostTool()
+        Me.GeometryBlocks(Me.GeometryBlocks.Count - 1).Tool.GenerateCode_PostTool()
 
-        GenerateHPGL_Postjob()
+        'GenerateHPGL_Postjob()
+        GenerateCode_Postjob()
 
     End Sub
 
     ''' <summary>
     ''' create the HPGL output for the beginnig of job commands
     ''' </summary>
-    Private Sub GenerateHPGL_PreJob()
+    Private Sub Generate_CodePreJob()
         '<property id="prejob" text="PU;PA;PB2,1;SD300;AS2,4;"></property>
         Dim JobString As String
 
@@ -617,7 +628,7 @@ Public Class CNC_Device
     ''' <summary>
     ''' create the HPGL output for the end of job commands
     ''' </summary>
-    Private Sub GenerateHPGL_Postjob()
+    Private Sub GenerateCode_Postjob()
         '<property id="postjob" text="PU 100000,100000;PB2,0;JB0;XX12,2;MSDone by {username};NR;"/>
         Dim JobString As String
 
@@ -717,6 +728,26 @@ Public Class CNC_Device
             _WorkingLength = value
 
         End Set
+
+    End Property
+
+    Public ReadOnly Property Language As String
+        Get
+
+
+            'Dim Lang As String = DeviceProperty("language").Text
+
+            If Not IsNothing(DeviceProperty("language")) Then
+                If DeviceProperty("language").Text = "GCODEM3" Then
+                    Return "GCODEM3"
+                Else
+                    Return "HPGL"
+                End If
+            Else
+                Return "HPGL"
+            End If
+
+        End Get
 
     End Property
 

@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+  
+  <device id="M1000" text="Stepcraft M1000">
+        
+    <!-- relation mm to device unit -->
+    <property id="language" text="GCODEM3"/>
+    
+    <!-- relation mm to device unit -->
+    <property id="factor" value="1"/>
+    
+    <!-- number of digits after decimal point -->
+    <property id="digits" value="3"/>
+
+    <!-- size of the usable area -->
+    <property id="workzone" x="679" y="1044"/>
+
+    <!-- toolname for cutting a box arround all geomtries -->
+    <property id="BoundingTool" text="OTK"/>
+    
+    <!-- distance between geometry and the cutted box -->
+    <property id="BBoxOffset" value="5"/>
+
+    <!-- timeout for optimization in  in milliseconds after that time the the optimation process will be stoped -->
+    <property id="TimeoutOptimization" value="10000"/>
+    
+    <!-- comma seperated list of order to cut -->
+    <property id="ToolOrder" text="OTK" />
+   
+    <!-- delay for power vacumpump up in milliseconds-->
+    <property id="delay" value="100" />
+
+    <!-- acceleration values will be used by the time forecast calcualtion -->
+    <property id="downacceleration" value="2" />
+    <property id="upacceleration" value="4" />
+
+    
+    <!-- PenUP;PenAbsolute;PowerBox2(Vacuumpump),On;Delay {3sec};AccerationSelect {down=2.5m/ss},{up=10m/ss};-->
+    <!-- be careful with the first command, this will also used for identifying the plt files -->
+    <!-- <property id="prejob" text="PU;PA;PB2,1;SD{delay};AS{downacceleration},{upacceleration};"/> -->
+    <property id="prejob" text="G90{crlf}G54{crlf}M3{crlf}S100{crlf}F{speedup}{crlf}#1={zposup}{crlf}#2={zposdown}{crlf}"/>
+    
+    <!-- Job No 0(EndOfJob Signal to the Plugin);Pen relative; PenUp and move the beam ;PowerBox2(Vacuumpump),off;Message how finnished the job;NotReady(offline)-->
+    <!-- <property id="postjob" text="JB0;PR;PU100000,0;PB2,0;XX12,2;MSDone by {username};NR;"/>-->
+    <property id="postjob" text="M5{crlf}(Done by {username}){crlf}"/>
+
+    <!-- the command to switch the device online this will be send as frontend command -->
+    <property id="SwitchOnline" text="ZF5;" />
+    
+    <!-- switch on(1) /off(0) the Reference point feature, check that the pretool or prejob properties setup right -->
+    <property id="ReferencePoint" value="0" />
+
+    <!-- switch on(1) /off(0) the turning the direction from paths during path optimazation if its a shorter path.  
+    caused by the eccentricity of the tip of the knife if its switched on the precsision can by lower -->
+    <property id="turnDirection" value="0" />
+    
+    <!-- switch on(1) /off(0) a warning before you cut if the default material is still loaded -->
+    <property id="DefaultMaterialWarning" value="1" />
+
+    <!-- switch on(1) /off(0) that after a job was send to the device, the default material is reselected -->
+    <property id="SwitchDefaultMaterialAtEnd" value="0" />
+    
+    <!-- switch on(1) /off(0) a bitmap within the device preview, it is intend to get a preview from your workbench from a camera -->
+    <property id="Bitmap" value="1" />
+
+    <!-- the path to the preview bitmap -->
+    <property id="BitmapPath" text ="D:\TEMP\TestBitmap.bmp"/>
+
+    <!-- the size for the bitmap in world units-->
+    <property id="BitmapSize" value="1200" />
+
+    <!-- the x,y value in world coordinate of the center of the bitmap -->
+    <property id="BitmapPosition" x="600" y="600" />
+
+    <!-- the x,y value in pixels of the top left corrcetion -->
+    <property id="BitmapCorrectionTL" x="80" y="0" />
+    <!-- the x,y value in pixels of the top right corrcetion -->
+    <property id="BitmapCorrectionTR" x="560" y="0" />
+    <!-- the x,y value in pixels of the bottom left corrcetion -->
+    <property id="BitmapCorrectionBL" x="80" y="480" />
+    <!-- the x,y value in pixels of the bottom right corrcetion -->
+    <property id="BitmapCorrectionBR" x="560" y="480" />
+
+    <!-- the name of the camera device -->
+    <property id="CameraName" text="Integrated Webcam" />
+    <!-- the resolution of the camera device in pixels-->
+    <property id="CameraResolution" text="{Width=640, Height=480}"/>
+
+
+    <conduit id="absolute">
+      <!-- mm -->
+      <!-- fix -->
+      <line x1="796" y1="-10" x2="796" y2="1146"/>
+      <line x1="-117" y1="-10" x2="796" y2="-10"/>
+      <line x1="-117" y1="1146" x2="-117" y2="-10"/>
+      <line x1="0" y1="1044" x2="0" y2="0"/>
+      <line x1="679" y1="1044" x2="0" y2="1044"/>
+      <line x1="679" y1="0" x2="679" y2="1044"/>
+      <line x1="0" y1="0" x2="679" y2="0"/>
+      <line x1="-117" y1="1146" x2="796" y2="1146"/>
+      <line x1="706" y1="1216" x2="706" y2="1146"/>
+      <line x1="-27" y1="1216" x2="-27" y2="1146"/>
+      <line x1="706" y1="1216" x2="-27" y2="1216"/>
+      <line x1="761.5" y1="1146" x2="761.5" y2="-10"/>
+      <line x1="-82.5" y1="1146" x2="-82.5" y2="-10"/>
+
+    </conduit>
+
+    <conduit id="refpoint">
+      <!-- mm -->
+      <!-- wird mit refpoint gesetzt -->
+      <!-- kleines kreuz -->
+      <line x1="-10" y1="-10" x2="10" y2="10"/>
+      <line x1="-10" y1="10" x2="10" y2="-10"/>
+    </conduit>
+
+    <tool id="OTK">    
+      
+      <!-- cm per s-->
+      <!-- traveling speed -->
+      <property id="speedup" value="1000" min="0.1" max="1000" text="Speed Up [mm/s]" displayfactor="1" ishidden="false"/>
+      
+      <!-- cm per s-->
+      <!-- traveling speed -->
+      <property id="speeddown" value="600" min="0.1" max="1000" text="Speed Down [mm/s]" displayfactor="1" ishidden="false"/>
+          
+      <!-- Plotterunits -->
+      <!-- z-up travel height -->
+      <property id="zposup" value="30" min="5" max="80" text="Z-Position up [mm]" displayfactor="1" ishidden="false"/>
+      
+      <!-- Z-Axis Position down -->
+      <property id="zposdown" value="-1" min="-3" max="25" text="Z-Position down [mm]" displayfactor="1" ishidden="false" />
+      
+      <!-- Toolname;ZPosition up,down;Speed downspeed,Upspeed, CircleResulution-->
+      <property id="pretool" text="" ishidden="true"/>
+     
+      <!-- PenUp; -->
+      <property id="posttool" text="" ishidden="true"/>
+      
+      <!-- we need this to calculated the estimated process time -->
+      <!-- in millisecond-->
+      <property id="interuptiontime" value="10"  min="0" max="10000" text="InterruptionTime [ms]" ishidden="true" />
+      
+    </tool>
+
+
+
+
+  </device>
+

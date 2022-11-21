@@ -253,7 +253,9 @@
     <Compile Include="Hardware\CNC_Property.vb" />
     <Compile Include="Hardware\CNC_Tool.vb" />
     <Compile Include="Hardware\CNC_ToolSetting.vb" />
-    <Compile Include="Helpers\JobLog.vb" />
+    <Compile Include="Helpers\JobLog.vb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="IO\CNC_NetPort.vb" />
     <Compile Include="IO\CNC_Port.vb" />
     <Compile Include="IO\NetPortSetting.vb" />
@@ -319,6 +321,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="config\plexi.material.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="config\StepcraftM1000.device.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

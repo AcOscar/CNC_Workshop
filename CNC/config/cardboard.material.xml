@@ -30,12 +30,14 @@
     <toolsettings id="SP1CUT" speeddown="10" zposup="500" zposdown="100"/>
     <toolsettings id="SP1ENG" speeddown="10" zposup="500" zposdown="-150"/>
     <toolsettings id="SP2" speeddown="7"  zposup="500"/>
+    <toolsettings id="OTK" speeddown="7"  zposup="500"/>
    </material>
 
   <material id="cardboard_25mm" display="Cardboard 2.5 mm" BoundBoxTool="SP2">
     <toolsettings id="SP1CUT" speeddown="10" zposup="500" zposdown="100"/>
     <toolsettings id="SP1ENG" speeddown="10" zposup="500" zposdown="-200"/>
     <toolsettings id="SP2" speeddown="7"  zposup="500"/>
+    <toolsettings id="OTK" speeddown="7"  zposup="500"/>
    </material>
 
   <material id="cardboard_3mm" display="Cardboard 3.0 mm" BoundBoxTool="SP2">

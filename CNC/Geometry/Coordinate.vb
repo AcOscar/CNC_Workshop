@@ -199,6 +199,18 @@ Public Class Coordinate
         End Get
 
     End Property
+    Public Overrides ReadOnly Property GC3(ByVal Factor As Integer, Digits As Integer) As String
+        Get
+            Dim _Return As New Text.StringBuilder
+            'just going to position an going down there
+            _Return.AppendFormat("G0X{0}Y{1}", Math.Round(_x * Factor, Digits), Math.Round(_y * Factor, Digits))
+            _Return.AppendFormat("G1X{0}Y{1}", Math.Round(_x * Factor, Digits), Math.Round(_y * Factor, Digits))
+
+            Return _Return.ToString
+
+        End Get
+
+    End Property
 
     Public Overrides Sub Transform(ByVal MoveVector As Coordinate)
 

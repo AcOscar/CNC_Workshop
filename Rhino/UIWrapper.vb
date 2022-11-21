@@ -244,7 +244,7 @@ Public Class UIWrapper
         'start job direct to the machine
         AddHandler BT_StartDirect.MouseUp, AddressOf Handle_BT_StartDirect_MouseUp
         'write a jobfile
-        'AddHandler BT_WriteFile.Click, AddressOf Handle_BT_WriteFile_Click
+        AddHandler BT_WriteFile.Click, AddressOf Handle_BT_WriteFile_Click
 
         AddHandler CB_ShowCutter.CheckedChanged, AddressOf Handle_CB_ShowHideDevice
 
@@ -1060,7 +1060,12 @@ Public Class UIWrapper
 
         End If
 
-        myDialog.Filter = "plt files (*.plt)|*.plt|All files (*.*)|*.*"
+        Select Case WorkShop.CurrentDevice.Language
+            Case "GCODEM3"
+                myDialog.Filter = "cnc files (*.nc)|*.nc|All files (*.*)|*.*"
+            Case Else
+                myDialog.Filter = "plt files (*.plt)|*.plt|All files (*.*)|*.*"
+        End Select
 
         myDialog.FilterIndex = 1
 
@@ -1480,4 +1485,24 @@ Public Class UIWrapper
 
     End Sub
 
+    Private Sub InitializeComponent()
+        CType(Me.SplitContainer_Layers, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer_Layers.Panel1.SuspendLayout()
+        Me.SplitContainer_Layers.SuspendLayout()
+        Me.SuspendLayout()
+        '
+        'SplitContainer_Layers
+        '
+        '
+        'UIWrapper
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(16.0!, 31.0!)
+        Me.Name = "UIWrapper"
+        Me.SplitContainer_Layers.Panel1.ResumeLayout(False)
+        Me.SplitContainer_Layers.Panel1.PerformLayout()
+        CType(Me.SplitContainer_Layers, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer_Layers.ResumeLayout(False)
+        Me.ResumeLayout(False)
+
+    End Sub
 End Class

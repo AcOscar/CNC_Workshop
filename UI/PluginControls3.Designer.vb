@@ -22,7 +22,7 @@ Partial Class PluginControls3
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.GB_JobProcess = New System.Windows.Forms.GroupBox()
         Me.BT_StopTransmit = New System.Windows.Forms.Button()
         Me.Lbl_Info = New System.Windows.Forms.Label()
@@ -53,6 +53,7 @@ Partial Class PluginControls3
         Me.GBTools = New System.Windows.Forms.GroupBox()
         Me.FLP_Tools = New System.Windows.Forms.FlowLayoutPanel()
         Me.TabControl_CNCWrkshp = New System.Windows.Forms.TabControl()
+        Me.BT_WriteFile = New System.Windows.Forms.Button()
         Me.GB_JobProcess.SuspendLayout()
         Me.TP_Layers.SuspendLayout()
         CType(Me.SplitContainer_Layers, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -214,8 +215,8 @@ Partial Class PluginControls3
         Me.DGV_LayerGrid.Name = "DGV_LayerGrid"
         Me.DGV_LayerGrid.RowHeadersVisible = False
         Me.DGV_LayerGrid.RowHeadersWidth = 102
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.1!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.DGV_LayerGrid.RowsDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.1!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DGV_LayerGrid.RowsDefaultCellStyle = DataGridViewCellStyle1
         Me.DGV_LayerGrid.RowTemplate.Height = 80
         Me.DGV_LayerGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.DGV_LayerGrid.Size = New System.Drawing.Size(1233, 1431)
@@ -267,19 +268,20 @@ Partial Class PluginControls3
         '
         'TableLayoutPanel1
         '
+        Me.TableLayoutPanel1.AutoScroll = True
         Me.TableLayoutPanel1.ColumnCount = 1
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel1.Controls.Add(Me.P_Bottom, 0, 2)
         Me.TableLayoutPanel1.Controls.Add(Me.P_Top, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.GBTools, 0, 1)
+        Me.TableLayoutPanel1.Controls.Add(Me.P_Bottom, 0, 2)
         Me.TableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel1.Location = New System.Drawing.Point(8, 7)
         Me.TableLayoutPanel1.Margin = New System.Windows.Forms.Padding(8, 7, 8, 7)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 3
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 150.0!))
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 191.0!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle())
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle())
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle())
         Me.TableLayoutPanel1.Size = New System.Drawing.Size(1233, 1483)
         Me.TableLayoutPanel1.TabIndex = 0
         '
@@ -287,15 +289,16 @@ Partial Class PluginControls3
         '
         Me.P_Bottom.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.P_Bottom.Controls.Add(Me.BT_WriteFile)
         Me.P_Bottom.Controls.Add(Me.CB_ShowCutter)
         Me.P_Bottom.Controls.Add(Me.CB_Preview)
         Me.P_Bottom.Controls.Add(Me.BT_Set0)
         Me.P_Bottom.Controls.Add(Me.BT_MoveJob)
         Me.P_Bottom.Controls.Add(Me.BT_StartDirect)
-        Me.P_Bottom.Location = New System.Drawing.Point(8, 1299)
+        Me.P_Bottom.Location = New System.Drawing.Point(8, 1199)
         Me.P_Bottom.Margin = New System.Windows.Forms.Padding(8, 7, 8, 7)
         Me.P_Bottom.Name = "P_Bottom"
-        Me.P_Bottom.Size = New System.Drawing.Size(1217, 177)
+        Me.P_Bottom.Size = New System.Drawing.Size(1217, 277)
         Me.P_Bottom.TabIndex = 3
         '
         'CB_ShowCutter
@@ -357,7 +360,7 @@ Partial Class PluginControls3
         Me.BT_StartDirect.Location = New System.Drawing.Point(11, 215)
         Me.BT_StartDirect.Margin = New System.Windows.Forms.Padding(8, 7, 8, 7)
         Me.BT_StartDirect.Name = "BT_StartDirect"
-        Me.BT_StartDirect.Size = New System.Drawing.Size(1201, 55)
+        Me.BT_StartDirect.Size = New System.Drawing.Size(485, 55)
         Me.BT_StartDirect.TabIndex = 2
         Me.BT_StartDirect.Text = "Cut"
         Me.BT_StartDirect.UseVisualStyleBackColor = True
@@ -427,7 +430,7 @@ Partial Class PluginControls3
         '
         Me.GBTools.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GBTools.Controls.Add(Me.FLP_Tools)
-        Me.GBTools.Location = New System.Drawing.Point(8, 471)
+        Me.GBTools.Location = New System.Drawing.Point(8, 157)
         Me.GBTools.Margin = New System.Windows.Forms.Padding(8, 7, 8, 7)
         Me.GBTools.Name = "GBTools"
         Me.GBTools.Padding = New System.Windows.Forms.Padding(8, 7, 8, 7)
@@ -459,6 +462,18 @@ Partial Class PluginControls3
         Me.TabControl_CNCWrkshp.SelectedIndex = 0
         Me.TabControl_CNCWrkshp.Size = New System.Drawing.Size(1269, 1555)
         Me.TabControl_CNCWrkshp.TabIndex = 0
+        '
+        'BT_WriteFile
+        '
+        Me.BT_WriteFile.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.BT_WriteFile.Location = New System.Drawing.Point(541, 215)
+        Me.BT_WriteFile.Margin = New System.Windows.Forms.Padding(8, 7, 8, 7)
+        Me.BT_WriteFile.Name = "BT_WriteFile"
+        Me.BT_WriteFile.Size = New System.Drawing.Size(485, 55)
+        Me.BT_WriteFile.TabIndex = 55
+        Me.BT_WriteFile.Text = "Write File"
+        Me.BT_WriteFile.UseVisualStyleBackColor = True
         '
         'PluginControls3
         '
@@ -517,4 +532,5 @@ Partial Class PluginControls3
     Public WithEvents GBTools As System.Windows.Forms.GroupBox
     Public WithEvents FLP_Tools As System.Windows.Forms.FlowLayoutPanel
     Public WithEvents TabControl_CNCWrkshp As System.Windows.Forms.TabControl
+    Public WithEvents BT_WriteFile As System.Windows.Forms.Button
 End Class

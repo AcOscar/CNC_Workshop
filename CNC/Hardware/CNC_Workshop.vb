@@ -350,6 +350,9 @@ Public Class CNC_Workshop
 
         End If
 
+
+
+        ParseText = ParseText.Replace("{crlf}", vbCrLf)
         Dim myRepl As String() = ParseText.Split(";"c)
 
         For Each ele As String In myRepl
@@ -364,41 +367,43 @@ Public Class CNC_Workshop
 
                     Dim replid As String = ele.Substring(start + 1, ende - start - 1)
 
-                    If replid = "id" Then
+                    Select Case replid
+                        'Case "crlf"
+                        '    ParseText = ParseText.Replace(";{" & replid & "};", vbCrLf)
+                        '    ele = ele.Replace("{" & "crlf" & "}", id)
+                        Case "id"
+                            ParseText = ParseText.Replace("{" & replid & "}", id)
 
-                        ParseText = ParseText.Replace("{" & replid & "}", id)
+                            ele = ele.Replace("{" & replid & "}", id)
 
-                        ele = ele.Replace("{" & replid & "}", id)
+                        Case Else
+                            For Each prop As CNC_Property In Properties
 
-                    Else
+                                If prop.ID = replid Then
 
-                        For Each prop As CNC_Property In Properties
+                                    Dim repl As String = prop.Value.ToString
 
-                            If prop.ID = replid Then
+                                    If replid = "username" Then
+                                        'we need them for the last line in the display and there is just 12 cahracters left
+                                        repl = prop.Text
 
-                                Dim repl As String = prop.Value.ToString
+                                        repl = repl.PadRight(12)
 
-                                If replid = "username" Then
-                                    'we need them for the last line in the display and there is just 12 cahracters left
-                                    repl = prop.Text
+                                        repl = repl.Substring(0, 12)
 
-                                    repl = repl.PadRight(12)
+                                    End If
 
-                                    repl = repl.Substring(0, 12)
+                                    ParseText = ParseText.Replace("{" & replid & "}", repl)
+
+                                    ele = ele.Replace("{" & replid & "}", repl)
+
+                                    Exit For
 
                                 End If
 
-                                ParseText = ParseText.Replace("{" & replid & "}", repl)
+                            Next
 
-                                ele = ele.Replace("{" & replid & "}", repl)
-
-                                Exit For
-
-                            End If
-
-                        Next
-
-                    End If
+                    End Select
 
                 End If
 

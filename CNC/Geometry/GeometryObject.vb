@@ -78,6 +78,7 @@ Public MustInherit Class GeometryObject
     ''' </summary>
     ''' <param name="Factor">the devicefactor between device units and mm</param>
     Public MustOverride ReadOnly Property HPGL(ByVal Factor As Integer) As String
+    Public MustOverride ReadOnly Property GC3(ByVal Factor As Integer, ByVal Digits As Integer) As String
 
     Public MustOverride Sub Transform(ByVal MoveVector As Coordinate)
 

@@ -17,6 +17,15 @@
             Return _Return.ToString
         End Get
     End Property
+    Public Overrides ReadOnly Property GC3(Factor As Integer, digits As Integer) As String
+        Get
+            Dim _Return As New Text.StringBuilder
+            'just going to position an going down there
+            _Return.AppendFormat("G0X{0}Y{1}", Math.Round(_x * Factor, digits), Math.Round(_y * Factor, digits))
+            _Return.AppendFormat("G1X{0}Y{1}", Math.Round(_x * Factor, digits), Math.Round(_y * Factor, digits))
+            Return _Return.ToString
+        End Get
+    End Property
 
     Public Overrides ReadOnly Property isReverted As Boolean
         Get
