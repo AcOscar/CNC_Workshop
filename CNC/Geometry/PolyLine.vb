@@ -1,7 +1,8 @@
 ﻿''' <summary>
 ''' a polyline is a collection of straight lines defined by a list of coordinates
 ''' </summary>
-Public Class PolyLine
+'Public Class PolyLine
+Public Class Poly
     Inherits GeometryObject
 
     Private _isReverted As Boolean = False
