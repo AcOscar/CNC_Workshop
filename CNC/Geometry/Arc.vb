@@ -8,6 +8,18 @@
 
     Public Property Radius As Double
 
+    Public Property AngleDegrees As Double
+    Public Property IsCompleteCircle As Boolean
+
+    Public Enum CurveOrientation
+        Undefined = 0
+        Clockwise = -1
+        CounterClockwise = 1
+    End Enum
+
+    Public Property Orientation As CurveOrientation
+
+
     Public Overrides ReadOnly Property FirstPoint() As Coordinate
 
         Get
@@ -89,12 +101,20 @@
     Public Overrides ReadOnly Property HPGL(ByVal Factor As Integer) As String
 
         Get
-
+            'UNTESTED:
             Dim _Return As New Text.StringBuilder
+            If IsCompleteCircle Then
 
-            _Return.AppendFormat("PU{0},{1};", Math.Round(Center.X * Factor), Math.Round(Center.Y * Factor))
+                _Return.AppendFormat("PU{0},{1};", Math.Round(Center.X * Factor), Math.Round(Center.Y * Factor))
 
-            _Return.AppendFormat("CI{0};", Math.Round(Radius * Factor))
+                _Return.AppendFormat("CI{0};", Math.Round(Radius * Factor))
+
+            Else
+                _Return.AppendFormat("PU{0},{1};", Math.Round(StartPoint.X * Factor), Math.Round(StartPoint.Y * Factor))
+
+                _Return.AppendFormat("AA{0},{1},{2};", Math.Round(Center.X * Factor), Math.Round(Center.Y * Factor), AngleDegrees)
+
+            End If
 
             Return _Return.ToString
 
@@ -107,11 +127,24 @@
             'todo: here the arc
             Dim _Return As New Text.StringBuilder
 
-            _Return.AppendFormat("G1X{0}Y{1}Z#1" & vbCrLf, Math.Round(StartPoint.X * Factor, Digits), Math.Round(StartPoint.Y * Factor, Digits))
-            _Return.AppendFormat("G2X{0}Y{1}Z#2I{2}J{3}" & vbCrLf, Math.Round(EndPoint.X * Factor, Digits), Math.Round(EndPoint.Y * Factor, Digits),
-            Math.Round(Center.X * Factor, Digits), Math.Round(Center.X * Factor, Digits))
+            _Return.AppendFormat("G0X{0}Y{1}Z#1" & vbCrLf, Math.Round(StartPoint.X * Factor, Digits), Math.Round(StartPoint.Y * Factor, Digits))
+            _Return.AppendFormat("G1X{0}Y{1}Z#2" & vbCrLf, Math.Round(StartPoint.X * Factor, Digits), Math.Round(StartPoint.Y * Factor, Digits))
+            Select Case Orientation
+                Case CurveOrientation.Clockwise
+                    _Return.AppendFormat("G2X{0}Y{1}Z#2I{2}J{3}" & vbCrLf, Math.Round(EndPoint.X * Factor, Digits), Math.Round(EndPoint.Y * Factor, Digits),
+                    Math.Round(Center.X * Factor, Digits) - Math.Round(StartPoint.X * Factor, Digits),
+                    Math.Round(Center.Y * Factor, Digits) - Math.Round(StartPoint.Y * Factor, Digits))
 
-            _Return.AppendFormat("G1X{0}Y{1}Z#1" & vbCrLf, Math.Round(EndPoint.X * Factor, Digits), Math.Round(EndPoint.Y * Factor, Digits))
+                Case CurveOrientation.CounterClockwise
+                    _Return.AppendFormat("G3X{0}Y{1}Z#2I{2}J{3}" & vbCrLf, Math.Round(EndPoint.X * Factor, Digits), Math.Round(EndPoint.Y * Factor, Digits),
+                    Math.Round(Center.X * Factor, Digits) - Math.Round(StartPoint.X * Factor, Digits),
+                    Math.Round(Center.Y * Factor, Digits) - Math.Round(StartPoint.Y * Factor, Digits))
+
+            End Select
+
+            _Return.AppendFormat("G0X{0}Y{1}Z#1" & vbCrLf, Math.Round(EndPoint.X * Factor, Digits), Math.Round(EndPoint.Y * Factor, Digits))
+            '_Return.Append("(to center)")
+            '_Return.AppendFormat("G0X{0}Y{1}Z#1" & vbCrLf, Math.Round(Center.X * Factor, Digits), Math.Round(Center.Y * Factor, Digits))
 
             Return _Return.ToString
 

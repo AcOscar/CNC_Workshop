@@ -73,24 +73,49 @@ Public Class RhWorker
                                 .Center = New Coordinate(myArc.Arc.Center.X - ZeroPoint.X, myArc.Arc.Center.Y - ZeroPoint.Y),
                                 .Radius = myArc.Arc.Radius,
                                 .StartPoint = New Coordinate(myArc.Arc.StartPoint.X - ZeroPoint.X, myArc.Arc.StartPoint.Y - ZeroPoint.Y),
-                                .EndPoint = New Coordinate(myArc.Arc.EndPoint.X - ZeroPoint.X, myArc.Arc.EndPoint.Y - ZeroPoint.Y)
+                                .EndPoint = New Coordinate(myArc.Arc.EndPoint.X - ZeroPoint.X, myArc.Arc.EndPoint.Y - ZeroPoint.Y),
+                                .IsCompleteCircle = True,
+                                .AngleDegrees = myArc.Arc.AngleDegrees,
+                                .Orientation = CType(myArc.ClosedCurveOrientation(), Arc.CurveOrientation)
                             }
 
                             myObj = mycncArc
 
                         Else
+
+                            Dim mycncArc As New Arc
+
+                            mycncArc.Center = New Coordinate(myArc.Arc.Center.X - ZeroPoint.X, myArc.Arc.Center.Y - ZeroPoint.Y)
+                            mycncArc.Radius = myArc.Arc.Radius
+                            mycncArc.StartPoint = New Coordinate(myArc.Arc.StartPoint.X - ZeroPoint.X, myArc.Arc.StartPoint.Y - ZeroPoint.Y)
+                            mycncArc.EndPoint = New Coordinate(myArc.Arc.EndPoint.X - ZeroPoint.X, myArc.Arc.EndPoint.Y - ZeroPoint.Y)
+                            mycncArc.IsCompleteCircle = False
+                            mycncArc.AngleDegrees = myArc.Arc.AngleDegrees
+                            mycncArc.Orientation = CType(myArc.ClosedCurveOrientation(), Arc.CurveOrientation)
+                            myObj = mycncArc
+                            'Dim mycncArc As New Arc With {
+                            '    .Center = New Coordinate(myArc.Arc.Center.X - ZeroPoint.X, myArc.Arc.Center.Y - ZeroPoint.Y),
+                            '    .Radius = myArc.Arc.Radius,
+                            '    .StartPoint = New Coordinate(myArc.Arc.StartPoint.X - ZeroPoint.X, myArc.Arc.StartPoint.Y - ZeroPoint.Y),
+                            '    .EndPoint = New Coordinate(myArc.Arc.EndPoint.X - ZeroPoint.X, myArc.Arc.EndPoint.Y - ZeroPoint.Y),
+                            '    .IsCompleteCircle = False,
+                            '    .AngleDegrees = myArc.Arc.AngleDegrees
+                            '}
+                            '.Orientation = CType(myArc.ClosedCurveOrientation(), Arc.CurveOrientation
+                            ')
+
+                            'alt
                             'LATER: teilkreise als eigene objecte und nicht als polylinien
+                            'Dim myPoint As New Coordinate(myArc.PointAtStart.X, myArc.PointAtStart.Y)
 
-                            Dim myPoint As New Coordinate(myArc.PointAtStart.X, myArc.PointAtStart.Y)
+                            'Dim mypline As New PolyLine
 
-                            Dim mypline As New PolyLine
+                            'mypline.Points.Add(CType(myPoint - ZeroPoint, Coordinate))
 
-                            mypline.Points.Add(CType(myPoint - ZeroPoint, Coordinate))
+                            'mypline.Points.AddRange(PointsFromArc(myArc, ZeroPoint))
 
-                            mypline.Points.AddRange(PointsFromArc(myArc, ZeroPoint))
-
-                            myObj = mypline
-
+                            'myObj = mypline
+                            '/alt
                         End If
 
                     Case GetType(NurbsCurve)
