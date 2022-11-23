@@ -697,7 +697,7 @@ Public Class CNC_Tool
 
             For i = 0 To 3
 
-                Dim myLine As New PolyLine(CType(bbox(i), Coordinate), CType(bbox(i + 1), Coordinate))
+                Dim myLine As New Line(CType(bbox(i), Coordinate), CType(bbox(i + 1), Coordinate))
 
                 'avoid lines along edges
                 If myLine.FirstPoint.X = 0 AndAlso myLine.LastPoint.X = 0 Then

@@ -410,7 +410,7 @@ Public Class CNC_Device
 
                         y2 = CDbl(xConEle.Attribute("y2"))
 
-                        Dim aLine As New PolyLine(x1, y1, x2, y2)
+                        Dim aLine As New Line(x1, y1, x2, y2)
 
                         Select Case xconduit.Attribute("id").Value.ToString.ToLower
                             Case "absolute"

@@ -221,7 +221,7 @@ Public Class OptimizerByIndex
 
         Dim A, B, C, D As Coordinate
 
-        Dim LineAB, LineCD, LineAC, LineDB As PolyLine
+        Dim LineAB, LineCD, LineAC, LineDB As Line
 
         Dim myProcessOrder As New List(Of Integer)(GBlock.ProcessOrder)
 
@@ -273,13 +273,13 @@ Public Class OptimizerByIndex
 
                     End If
 
-                    LineAB = New PolyLine(A, B)
+                    LineAB = New Line(A, B)
 
-                    LineCD = New PolyLine(C, D)
+                    LineCD = New Line(C, D)
 
-                    LineAC = New PolyLine(A, C)
+                    LineAC = New Line(A, C)
 
-                    LineDB = New PolyLine(D, B)
+                    LineDB = New Line(D, B)
 
                     Dim ABCD As Double
                     Dim ACDB As Double
@@ -347,13 +347,13 @@ Public Class OptimizerByIndex
 
             End If
 
-            LineAB = New PolyLine(A, B)
+            LineAB = New Line(A, B)
 
-            LineCD = New PolyLine(C, D)
+            LineCD = New Line(C, D)
 
-            LineAC = New PolyLine(A, C)
+            LineAC = New Line(A, C)
 
-            LineDB = New PolyLine(D, B)
+            LineDB = New Line(D, B)
 
             If ((LineAB.Length + LineCD.Length) > (LineAC.Length + LineDB.Length)) AndAlso (LineAC.Length + LineDB.Length) > 0 Then
 
@@ -391,8 +391,8 @@ Public Class OptimizerByIndex
 
             End If
 
-            LineAB = New PolyLine(A, B)
-            LineAC = New PolyLine(A, C)
+            LineAB = New Line(A, B)
+            LineAC = New Line(A, C)
 
             If LineAC.Length < LineAB.Length Then
                 myProcessOrder(myProcessOrder.Count - 1) *= -1

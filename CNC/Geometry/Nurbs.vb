@@ -5,6 +5,10 @@
 
     Public Points As New List(Of Coordinate)
 
+    Public Sub New()
+
+    End Sub
+
     Public Overrides ReadOnly Property FirstPoint As Coordinate
         Get
             If Points.Count > 0 Then
