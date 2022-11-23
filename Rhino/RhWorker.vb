@@ -124,13 +124,13 @@ Public Class RhWorker
 
                         ' Dim myPoint As New Coordinate(myNurbsCurve.PointAtStart.X, myNurbsCurve.PointAtStart.Y)
 
-                        Dim mypline As New PolyLine
+                        Dim myNurbs As New Nurbs
 
                         ' mypline.Points.Add(CType(myPoint - ZeroPoint, Coordinate))
 
-                        mypline.Points.AddRange(PointsFromNurbs(myNurbsCurve, ZeroPoint))
+                        myNurbs.Points.AddRange(PointsFromNurbs(myNurbsCurve, ZeroPoint))
 
-                        myObj = mypline
+                        myObj = myNurbs
 
                     Case GetType(PolylineCurve)
 

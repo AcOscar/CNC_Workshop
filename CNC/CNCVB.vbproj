@@ -244,6 +244,8 @@
     <Compile Include="Geometry\BlockInstance.vb" />
     <Compile Include="Geometry\Coordinate.vb" />
     <Compile Include="Geometry\GeometryObject.vb" />
+    <Compile Include="Geometry\Line.vb" />
+    <Compile Include="Geometry\Nurbs.vb" />
     <Compile Include="Geometry\PolyLine.vb" />
     <Compile Include="Hardware\CNC_Controller.vb" />
     <Compile Include="Hardware\CNC_Device.vb" />
