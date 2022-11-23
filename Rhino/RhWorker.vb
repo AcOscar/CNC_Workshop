@@ -194,13 +194,13 @@ Public Class RhWorker
 
                         myPoint = New Coordinate(LCrv.PointAtStart.X - ZeroPoint.X, LCrv.PointAtStart.Y - ZeroPoint.Y)
 
-                        Dim mypline As New PolyLine
+                        Dim myline As New Line
 
-                        mypline.Points.Add(myPoint)
+                        myline.Points.Add(myPoint)
 
-                        mypline.Points.AddRange(PointsFromLine(LCrv, ZeroPoint))
+                        myline.Points.AddRange(PointsFromLine(LCrv, ZeroPoint))
 
-                        myObj = mypline
+                        myObj = myline
 
                 End Select
 
