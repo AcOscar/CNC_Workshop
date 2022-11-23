@@ -154,9 +154,10 @@ Public Class RhWorker
 
                         myPoint = New Coordinate(PlCrv.PointAtStart.X, PlCrv.PointAtStart.Y)
 
-                        Dim mypline As New PolyLine
+                        Dim myPoly As New Poly
 
-                        mypline.Points.Add(CType(myPoint - ZeroPoint, Coordinate))
+                        'mypline.Points.Add(CType(myPoint - ZeroPoint, Coordinate))
+                        'TODO: implemnt first point from first segment
 
                         For i = 0 To PlCrv.SegmentCount - 1
 
@@ -166,25 +167,51 @@ Public Class RhWorker
 
                                 Case GetType(NurbsCurve)
 
-                                    mypline.Points.AddRange(PointsFromNurbs(CType(mySegment, NurbsCurve), ZeroPoint))
+                                    Dim myNurbs As New Nurbs
+
+                                    myNurbs.Points.AddRange(PointsFromNurbs(CType(mySegment, NurbsCurve), ZeroPoint))
+
+                                    myPoly.Segments.Add(myNurbs)
 
                                 Case GetType(LineCurve)
 
-                                    mypline.Points.AddRange(PointsFromLine(CType(mySegment, LineCurve), ZeroPoint))
+                                    Dim myLine As New Line
+
+                                    myLine.Points.AddRange(PointsFromLine(CType(mySegment, LineCurve), ZeroPoint))
+
+                                    myPoly.Segments.Add(myLine)
 
                                 Case GetType(ArcCurve)
 
-                                    mypline.Points.AddRange(PointsFromArc(CType(mySegment, ArcCurve), ZeroPoint))
+                                    Dim mycncArc As New Arc
+
+                                    'mypline.Points.AddRange(PointsFromArc(CType(mySegment, ArcCurve), ZeroPoint))
+                                    Dim myArc As ArcCurve = CType(mySegment, ArcCurve)
+
+                                    mycncArc.Center = New Coordinate(myArc.Arc.Center.X - ZeroPoint.X, myArc.Arc.Center.Y - ZeroPoint.Y)
+                                    mycncArc.Radius = myArc.Arc.Radius
+                                    mycncArc.StartPoint = New Coordinate(myArc.Arc.StartPoint.X - ZeroPoint.X, myArc.Arc.StartPoint.Y - ZeroPoint.Y)
+                                    mycncArc.EndPoint = New Coordinate(myArc.Arc.EndPoint.X - ZeroPoint.X, myArc.Arc.EndPoint.Y - ZeroPoint.Y)
+                                    mycncArc.IsCompleteCircle = False
+                                    mycncArc.AngleDegrees = myArc.Arc.AngleDegrees
+                                    mycncArc.Orientation = CType(myArc.ClosedCurveOrientation(), Arc.CurveOrientation)
+                                    'myObj = mycncArc
+
+
+                                    myPoly.Segments.Add(mycncArc)
 
                                 Case GetType(PolylineCurve)
 
-                                    mypline.Points.AddRange(PointsFromPolyline(CType(mySegment, PolylineCurve), ZeroPoint))
+                                    Dim myPolyline As New NPolyline
 
+                                    myPolyline.Points.AddRange(PointsFromPolyline(CType(mySegment, PolylineCurve), ZeroPoint))
+
+                                    myPoly.Segments.Add(myPolyline)
                             End Select
 
                         Next
 
-                        myObj = mypline
+                        myObj = myPoly
 
                     Case GetType(LineCurve)
 
