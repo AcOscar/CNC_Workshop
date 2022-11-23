@@ -146,9 +146,9 @@ Public Class RhDisplayConduit
 
             Select Case obj.GetType
 
-                Case GetType(PolyLine)
+                Case GetType(Line)
 
-                    Dim myProxyLine As PolyLine = CType(obj, PolyLine)
+                    Dim myProxyLine As WrkShp.Line = CType(obj, WrkShp.Line)
 
                     Dim myLineGeom As New Rhino.Geometry.Line(myProxyLine.FirstPoint.X, myProxyLine.FirstPoint.Y, 0.1, myProxyLine.LastPoint.X, myProxyLine.LastPoint.Y, 0.1)
 

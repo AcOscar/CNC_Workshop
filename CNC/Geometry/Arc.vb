@@ -5,6 +5,8 @@
     Public Property Center As Coordinate
     Public Property EndPoint As Coordinate
     Public Property StartPoint As Coordinate
+    Public Property TangentAtEnd As Coordinate
+    Public Property TangentAtStart As Coordinate
 
     Public Property Radius As Double
 

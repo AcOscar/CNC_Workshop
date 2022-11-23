@@ -24,7 +24,7 @@ Public Class RhMouseFeedBack
 
         pick_context.SetPickTransform(xform)
 
-        Dim pick_line As Line
+        Dim pick_line As Geometry.Line
 
         pick_context.View.ActiveViewport.GetFrustumLine(e.ViewportPoint.X, e.ViewportPoint.Y, pick_line)
 
