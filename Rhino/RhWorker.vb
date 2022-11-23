@@ -138,7 +138,7 @@ Public Class RhWorker
 
                         Dim myPoint As New Coordinate(myPolylineCurve.Point(0).X, myPolylineCurve.Point(0).Y)
 
-                        Dim mypline As New PolyLine
+                        Dim mypline As New NPolyline
 
                         mypline.Points.Add(CType(myPoint - ZeroPoint, Coordinate))
 
