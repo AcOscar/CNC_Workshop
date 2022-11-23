@@ -152,11 +152,11 @@ Public Class RhWorker
 
                     Case GetType(PolyCurve)
 
-                        Dim myPoint As New Coordinate
+                        'Dim myPoint As New Coordinate
 
                         Dim PlCrv As PolyCurve = CType(myCurve.CurveGeometry, PolyCurve)
 
-                        myPoint = New Coordinate(PlCrv.PointAtStart.X, PlCrv.PointAtStart.Y)
+                        'myPoint = New Coordinate(PlCrv.PointAtStart.X, PlCrv.PointAtStart.Y)
 
                         Dim myPoly As New Poly
 
@@ -181,9 +181,18 @@ Public Class RhWorker
 
                                     Dim myLine As New Line
 
+                                    myLine.Points.Add(New Coordinate(mySegment.PointAtStart.X, mySegment.PointAtStart.Y))
+
                                     myLine.Points.AddRange(PointsFromLine(CType(mySegment, LineCurve), ZeroPoint))
 
+
+
                                     myPoly.Segments.Add(myLine)
+
+
+
+
+
 
                                 Case GetType(ArcCurve)
 
@@ -200,6 +209,8 @@ Public Class RhWorker
                                     mycncArc.AngleDegrees = myArc.Arc.AngleDegrees
                                     mycncArc.Orientation = CType(myArc.ClosedCurveOrientation(), Arc.CurveOrientation)
                                     'myObj = mycncArc
+                                    mycncArc.TangentAtStart = New Coordinate(myArc.TangentAtStart.X, myArc.TangentAtStart.Y)
+                                    mycncArc.TangentAtEnd = New Coordinate(myArc.TangentAtEnd.X, myArc.TangentAtEnd.Y)
 
 
                                     myPoly.Segments.Add(mycncArc)
@@ -1109,8 +1120,7 @@ Public Class RhWorker
 
                         Next
 
-                        Dim myNurbs As Curve = myRhPoly.ToNurbsCurve
-                        conduit.FutureObjects.Add(myNurbs)
+                        conduit.FutureObjects.Add(myRhPoly.ToNurbsCurve)
 
                     Case GetType(Line)
 
@@ -1125,11 +1135,7 @@ Public Class RhWorker
 
                         Next
 
-                        Dim myNurbs As Curve = myRhPoly.ToNurbsCurve
-                        conduit.FutureObjects.Add(myNurbs)
-
-
-
+                        conduit.FutureObjects.Add(myRhPoly.ToNurbsCurve)
 
 
                     Case GetType(Poly)
@@ -1152,6 +1158,8 @@ Public Class RhWorker
 
                                     Next
 
+                                    conduit.FutureObjects.Add(myRhPoly.ToNurbsCurve)
+
                                 Case GetType(Line)
 
                                     Dim myLine As Line = CType(seg, Line)
@@ -1163,7 +1171,49 @@ Public Class RhWorker
 
                                     Next
 
+                                    conduit.FutureObjects.Add(myRhPoly.ToNurbsCurve)
+
                                 Case GetType(Arc)
+                                    Dim myRhArcCrv As Rhino.Geometry.ArcCurve
+
+
+                                    Dim myCNCArc As Arc = CType(seg, Arc)
+
+                                    Dim myRhArc As Rhino.Geometry.Circle
+                                    myRhArc = New Rhino.Geometry.Circle(New Point3d(myCNCArc.Center.X + conduit.ZeroPoint.X,
+                                                                             myCNCArc.Center.Y + conduit.ZeroPoint.Y, 0),
+                                                                         myCNCArc.Radius)
+
+
+
+
+
+                                    myRhArcCrv = New ArcCurve(myRhArc)
+                                    Dim RhStartPoint As New Point3d(myCNCArc.StartPoint.X, myCNCArc.StartPoint.Y, 0)
+                                    Dim RhEndPoint As New Point3d(myCNCArc.EndPoint.X, myCNCArc.EndPoint.Y, 0)
+                                    Dim RhTangentStart As New Vector3d(myCNCArc.TangentAtStart.X, myCNCArc.TangentAtStart.Y, 0)
+                                    Dim RhTangentEnd As New Vector3d(myCNCArc.TangentAtEnd.X, myCNCArc.TangentAtEnd.Y, 0)
+
+                                    'myRhArcCrv.SetStartPoint(RhPoint)
+                                    'myRhArcCrv = New Rhino.Geometry.ArcCurve()
+                                    'myRhArcCrv.ChangeClosedCurveSeam(1)
+
+                                    'RhPoint = New Point3d(myCNCArc.EndPoint.X, myCNCArc.EndPoint.Y, 0)
+                                    'myRhArcCrv.SetEndPoint(RhPoint)
+                                    Dim myrcv As Curve = Rhino.Geometry.Curve.CreateArcBlend(RhStartPoint, RhTangentStart, RhEndPoint, RhTangentEnd, 1)
+
+
+                                    ' Dim myretNurbs As Curve = myRhPoly.ToNurbsCurve
+
+
+                                    conduit.FutureObjects.Add(myrcv.ToNurbsCurve)
+                            'myRhArcCrv = CType(Rhino.Geometry.Curve.CreateArcBlend(RhStartPoint, RhTangentStart, RhEndPoint, RhTangentEnd, 1), ArcCurve)
+
+
+
+
+
+
 
                                 Case GetType(NPolyline)
                                     Dim myNPolyline As NPolyline = CType(seg, NPolyline)
@@ -1182,6 +1232,10 @@ Public Class RhWorker
 
                         Next
 
+                        ' Dim myretNurbs As Curve = myRhPoly.ToNurbsCurve
+
+
+                        'conduit.FutureObjects.Add(myretNurbs)
 
 '                        Select Case myCNCPoly.Points.Count
 '                            Case Is > 1
