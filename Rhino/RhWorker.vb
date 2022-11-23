@@ -1092,49 +1092,94 @@ Public Class RhWorker
 
                 Select Case (g.GetType)
 
-                    Case GetType(PolyLine)
+                    Case GetType(Poly)
 
                         Dim myRhPoly As New Rhino.Geometry.Polyline
 
-                        Dim myCNCPoly As PolyLine = CType(g, PolyLine)
+                        'Dim myCNCPoly As Polyline = CType(g, Polyline)
+                        Dim myCNCPoly As Poly = CType(g, Poly)
 
-                        Select Case myCNCPoly.Points.Count
-                            Case Is > 1
+                        For Each seg As GeometryObject In myCNCPoly.Segments
+                            Select Case seg.GetType
 
-                                For Each p As Coordinate In myCNCPoly.Points
+                                Case GetType(Nurbs)
+                                    Dim myNurbs As Nurbs = CType(seg, Nurbs)
 
-                                    myRhPoly.Add(p.X + conduit.ZeroPoint.X,
-                                                 p.Y + conduit.ZeroPoint.Y, 0)
+                                    For Each p As Coordinate In myNurbs.Points
 
-                                Next
+                                        myRhPoly.Add(p.X + conduit.ZeroPoint.X,
+                                                     p.Y + conduit.ZeroPoint.Y, 0)
 
-                                Dim myNurbs As Curve = myRhPoly.ToNurbsCurve
-#If DEBUG Then
-                                If myNurbs Is Nothing Then
-                                    Stop
-                                End If
-#End If
-                                conduit.FutureObjects.Add(myNurbs)
+                                    Next
 
-                            Case 1
+                                Case GetType(Line)
+
+                                    Dim myLine As Line = CType(seg, Line)
+
+                                    For Each p As Coordinate In myLine.Points
+
+                                        myRhPoly.Add(p.X + conduit.ZeroPoint.X,
+                                                     p.Y + conduit.ZeroPoint.Y, 0)
+
+                                    Next
+
+                                Case GetType(Arc)
+
+                                Case GetType(NPolyline)
+                                    Dim myNPolyline As NPolyline = CType(seg, NPolyline)
+
+                                    For Each p As Coordinate In myNPolyline.Points
+
+                                        myRhPoly.Add(p.X + conduit.ZeroPoint.X,
+                                                     p.Y + conduit.ZeroPoint.Y, 0)
+
+                                    Next
+
+                                Case Else
+
+                            End Select
 
 
-                                Dim myPoint As New Rhino.Geometry.Point3d(myCNCPoly.Points(0).X + conduit.ZeroPoint.X,
-                                                                          myCNCPoly.Points(0).Y + conduit.ZeroPoint.Y, 0)
+                        Next
 
-                                Dim myCrv As New Rhino.Geometry.Line(myPoint, myPoint)
 
-                                Dim myNurbs As Curve = myCrv.ToNurbsCurve
-#If DEBUG Then
-                                If myNurbs Is Nothing Then
-                                    Stop
-                                End If
-#End If
-                                conduit.FutureObjects.Add(myNurbs)
+'                        Select Case myCNCPoly.Points.Count
+'                            Case Is > 1
 
-                            Case 0
+'                                For Each p As Coordinate In myCNCPoly.Points
 
-                        End Select
+'                                    myRhPoly.Add(p.X + conduit.ZeroPoint.X,
+'                                                 p.Y + conduit.ZeroPoint.Y, 0)
+
+'                                Next
+
+'                                Dim myNurbs As Curve = myRhPoly.ToNurbsCurve
+'#If DEBUG Then
+'                                If myNurbs Is Nothing Then
+'                                    Stop
+'                                End If
+'#End If
+'                                conduit.FutureObjects.Add(myNurbs)
+
+'                            Case 1
+
+
+'                                Dim myPoint As New Rhino.Geometry.Point3d(myCNCPoly.Points(0).X + conduit.ZeroPoint.X,
+'                                                                          myCNCPoly.Points(0).Y + conduit.ZeroPoint.Y, 0)
+
+'                                Dim myCrv As New Rhino.Geometry.Line(myPoint, myPoint)
+
+'                                Dim myNurbs As Curve = myCrv.ToNurbsCurve
+'#If DEBUG Then
+'                                If myNurbs Is Nothing Then
+'                                    Stop
+'                                End If
+'#End If
+'                                conduit.FutureObjects.Add(myNurbs)
+
+'                            Case 0
+
+'                        End Select
 
                     Case GetType(Arc)
 
